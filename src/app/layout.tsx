@@ -10,6 +10,11 @@ import Layout from "@/components/Layout";
 export const metadata: Metadata = {
   title: "DigCare — Your Health. Reimagined. | Ghana's Healthcare Platform",
   description: "DigCare is Ghana's next-generation digital healthcare platform. Book appointments, consult doctors, manage your digital health card, and more.",
+  icons: {
+    icon: "/assets/digicare_app_icon.png",
+    shortcut: "/assets/digicare_app_icon.png",
+    apple: "/assets/digicare_app_icon.png",
+  },
   openGraph: {
     title: "DigCare — Your Health. Reimagined.",
     description: "Ghana's next-generation healthcare platform — connecting patients, doctors, clinics, pharmacies, and labs.",
