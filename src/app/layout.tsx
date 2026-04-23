@@ -5,11 +5,15 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Providers from "@/components/Providers";
-import Layout from "@/components/Layout";
+import AppSidebar from "@/components/AppSidebar";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import MainWrapper from "@/components/MainWrapper";
 
 export const metadata: Metadata = {
   title: "DigCare — Your Health. Reimagined. | Ghana's Healthcare Platform",
-  description: "DigCare is Ghana's next-generation digital healthcare platform. Book appointments, consult doctors, manage your digital health card, and more.",
+  description:
+    "DigCare is Ghana's next-generation digital healthcare platform. Book appointments, consult doctors, manage your digital health card, and more.",
   icons: {
     icon: "/assets/digicare_app_icon.png",
     shortcut: "/assets/digicare_app_icon.png",
@@ -17,12 +21,17 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "DigCare — Your Health. Reimagined.",
-    description: "Ghana's next-generation healthcare platform — connecting patients, doctors, clinics, pharmacies, and labs.",
+    description:
+      "Ghana's next-generation healthcare platform — connecting patients, doctors, clinics, pharmacies, and labs.",
     type: "website",
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body>
@@ -31,9 +40,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <SidebarProvider>
               <Toaster />
               <Sonner />
-              <Layout>
-                {children}
-              </Layout>
+              <div className="min-h-screen bg-background">
+                <AppSidebar />
+                <Navbar />
+                <MainWrapper>
+                  {children}
+                  <Footer />
+                </MainWrapper>
+              </div>
             </SidebarProvider>
           </TooltipProvider>
         </Providers>

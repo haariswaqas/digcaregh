@@ -110,10 +110,13 @@
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 3.5rem;
   }
 
   body {
-    @apply bg-background text-foreground font-body antialiased;
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-body);
+    overflow-x: hidden;
   }
 
   h1,
@@ -124,17 +127,35 @@
   h6 {
     font-family: var(--font-heading);
   }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 2px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
 }
 
 @layer components {
   .glass-card {
     @apply bg-card/40 backdrop-blur-xl border border-border/50 rounded-xl;
-    box-shadow: 0 8px 32px rgba(0, 242, 254, 0.05);
+    box-shadow: 0 8px 32px rgba(0, 242, 254, 0.04);
   }
 
   .glass-card-hover {
     @apply bg-card/40 backdrop-blur-xl border border-border/50 rounded-xl transition-all duration-300;
-    box-shadow: 0 8px 32px rgba(0, 242, 254, 0.05);
+    box-shadow: 0 8px 32px rgba(0, 242, 254, 0.04);
   }
 
   .glass-card-hover:hover {
@@ -152,37 +173,39 @@
   }
 
   .gradient-btn {
-    @apply bg-gradient-to-r from-primary to-blue px-6 py-3 rounded-lg font-semibold text-primary-foreground transition-all duration-300;
-    box-shadow: 0 4px 20px rgba(0, 242, 254, 0.3);
+    @apply bg-gradient-to-r from-primary to-blue px-6 py-2.5 rounded-lg font-semibold text-primary-foreground transition-all duration-300 cursor-pointer;
+    box-shadow: 0 4px 20px rgba(0, 242, 254, 0.25);
   }
 
   .gradient-btn:hover {
-    box-shadow: 0 6px 30px rgba(0, 242, 254, 0.5);
-    transform: translateY(-2px);
+    box-shadow: 0 6px 30px rgba(0, 242, 254, 0.45);
+    transform: translateY(-1px);
   }
 
   .ghost-btn {
-    @apply border border-primary/50 px-6 py-3 rounded-lg font-semibold text-primary transition-all duration-300;
+    @apply border border-primary/50 px-6 py-2.5 rounded-lg font-semibold text-primary transition-all duration-300;
   }
 
   .ghost-btn:hover {
-    @apply bg-primary/10;
+    @apply bg-primary/10 border-primary/80;
   }
 
+  /* Plain CSS instead of @apply with arbitrary HSL values */
   .section-light {
-    @apply bg-[hsl(220,20%,97%)] text-[hsl(240,50%,10%)];
+    background-color: hsl(220, 20%, 97%);
+    color: hsl(240, 50%, 10%);
   }
 
   .glow-border {
-    border: 1px solid rgba(0, 242, 254, 0.1);
+    border: 1px solid rgba(0, 242, 254, 0.08);
   }
 
   .sidebar-glass {
-    background: rgba(10, 10, 26, 0.85);
-    backdrop-filter: blur(16px);
+    background: rgba(8, 8, 22, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
   }
 }
-
 
 @layer utilities {
   .text-balance {

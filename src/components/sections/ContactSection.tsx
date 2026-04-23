@@ -130,7 +130,7 @@ const ContactSection = () => {
               </div>
               <div>
                 <h4 className="font-heading font-semibold mb-1">Email</h4>
-                <p className="text-muted-foreground text-sm">hello@digcare.com.gh</p>
+                <p className="text-muted-foreground text-sm">support@digcaregh.com</p>
               </div>
             </div>
 

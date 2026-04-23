@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout";
 import HeroSection from "@/components/sections/HeroSection";
 import AboutSection from "@/components/sections/AboutSection";
 import FeaturesSection from "@/components/sections/FeaturesSection";
@@ -10,7 +9,7 @@ import ContactSection from "@/components/sections/ContactSection";
 
 export default function Home() {
   return (
-    <Layout>
+    <>
       <HeroSection />
       <AboutSection />
       <FeaturesSection />
@@ -19,6 +18,6 @@ export default function Home() {
       <RolesSection />
       <WaitlistSection />
       <ContactSection />
-    </Layout>
+    </>
   );
 }
