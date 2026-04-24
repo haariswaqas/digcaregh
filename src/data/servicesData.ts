@@ -203,15 +203,7 @@ export const servicesData: Record<string, ServiceData> = {
     ],
     features: [
       { icon: "🪪", title: "Digital Health Card", description: "A unique card number, card type, and QR code tied to your health identity." },
-      { icon: "📲", title: "QR Code Access", description: "Doctors scan your QR code to securely access your health record." },
-      { icon: "🔐", title: "PIN Protection", description: "Protect your card with a personal PIN. You control who sees your data." },
-      { icon: "🏥", title: "Remote Access Requests", description: "Doctors can request remote access; you approve or deny every request." },
-      { icon: "🔑", title: "OTP Verification", description: "Remote access secured with one-time password verification." },
-      { icon: "📋", title: "Health Data on Card", description: "View appointments, lab results, and prescriptions linked to your card." },
-      { icon: "📜", title: "Scan Activity Log", description: "See a full history of who accessed your card and when." },
-      { icon: "⬇️", title: "Download & Share", description: "Export your health card as a PDF for physical visits or insurance." },
-      { icon: "🔄", title: "Regenerate QR", description: "Instantly regenerate your QR code if you feel your privacy is at risk." },
-      { icon: "🏷️", title: "NHIS Integration", description: "Designed to link with Ghana's National Health Insurance Scheme." },
+
     ],
     beneficiaries: [
       { role: "Patients", description: "Carry your complete medical identity securely." },
