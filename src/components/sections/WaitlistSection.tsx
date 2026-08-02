@@ -45,9 +45,7 @@ const WaitlistSection = () => {
   };
 
   return (
-    <section id="waitlist" className="py-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-card/50 to-background" />
-
+    <section id="waitlist" className="py-24 relative overflow-hidden bg-[#fafafa]">
       <div className="relative max-w-2xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -55,11 +53,11 @@ const WaitlistSection = () => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-[#1a2b3c]">
             Be the First to Experience{" "}
-            <span className="gradient-text">DigCare</span>
+            <span className="text-[#0a9c5a]">DigCare</span>
           </h2>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-gray-500 text-lg">
             We're preparing to launch in Ghana. Join the waitlist and get early access when we go live.
           </p>
         </motion.div>
@@ -68,11 +66,11 @@ const WaitlistSection = () => {
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="glass-card p-12 text-center"
+            className="bg-white rounded-3xl p-12 text-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100"
           >
-            <CheckCircle className="w-16 h-16 text-primary mx-auto mb-4" />
-            <h3 className="text-2xl font-heading font-bold mb-2">You're on the list!</h3>
-            <p className="text-muted-foreground">We'll notify you when DigCare launches. Thank you for your interest!</p>
+            <CheckCircle className="w-16 h-16 text-[#0a9c5a] mx-auto mb-6" />
+            <h3 className="text-2xl font-heading font-bold mb-3 text-gray-900">You're on the list!</h3>
+            <p className="text-gray-500">We'll notify you when DigCare launches. Thank you for your interest!</p>
           </motion.div>
         ) : (
           <motion.form
@@ -80,49 +78,49 @@ const WaitlistSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             onSubmit={handleSubmit}
-            className="glass-card p-8 space-y-5"
+            className="bg-white rounded-3xl p-8 md:p-12 space-y-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100"
           >
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">Full Name *</label>
+              <label className="block text-sm font-semibold text-gray-800 mb-2">Full Name *</label>
               <input
                 name="name"
                 required
-                className="w-full px-4 py-3 rounded-lg bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                className="w-full px-4 py-3.5 rounded-xl bg-[#f9fafb] border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#0a9c5a] focus:ring-4 focus:ring-[#0a9c5a]/10 transition-all shadow-sm"
                 placeholder="Kwame Mensah"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">Email Address *</label>
+              <label className="block text-sm font-semibold text-gray-800 mb-2">Email Address *</label>
               <input
                 name="email"
                 type="email"
                 required
-                className="w-full px-4 py-3 rounded-lg bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                className="w-full px-4 py-3.5 rounded-xl bg-[#f9fafb] border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#0a9c5a] focus:ring-4 focus:ring-[#0a9c5a]/10 transition-all shadow-sm"
                 placeholder="kwame@example.com"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">Phone Number</label>
+              <label className="block text-sm font-semibold text-gray-800 mb-2">Phone Number</label>
               <div className="flex gap-2">
-                <span className="flex items-center px-3 py-3 rounded-lg bg-secondary border border-border text-muted-foreground text-sm">
+                <span className="flex items-center px-4 py-3.5 rounded-xl bg-[#f9fafb] border border-gray-200 text-gray-500 text-sm font-medium shadow-sm">
                   🇬🇭 +233
                 </span>
                 <input
                   name="phone"
                   type="tel"
-                  className="flex-1 px-4 py-3 rounded-lg bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                  className="flex-1 px-4 py-3.5 rounded-xl bg-[#f9fafb] border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#0a9c5a] focus:ring-4 focus:ring-[#0a9c5a]/10 transition-all shadow-sm"
                   placeholder="24 000 0000"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">I am a...</label>
+              <label className="block text-sm font-semibold text-gray-800 mb-2">I am a...</label>
               <select
                 name="role"
-                className="w-full px-4 py-3 rounded-lg bg-secondary border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                className="w-full px-4 py-3.5 rounded-xl bg-[#f9fafb] border border-gray-200 text-gray-900 focus:outline-none focus:border-[#0a9c5a] focus:ring-4 focus:ring-[#0a9c5a]/10 transition-all shadow-sm appearance-none"
               >
                 <option value="patient">Patient</option>
                 <option value="doctor">Doctor</option>
@@ -134,10 +132,10 @@ const WaitlistSection = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">City / Region (optional)</label>
+              <label className="block text-sm font-semibold text-gray-800 mb-2">City / Region (optional)</label>
               <input
                 name="city"
-                className="w-full px-4 py-3 rounded-lg bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                className="w-full px-4 py-3.5 rounded-xl bg-[#f9fafb] border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#0a9c5a] focus:ring-4 focus:ring-[#0a9c5a]/10 transition-all shadow-sm"
                 placeholder="Accra"
               />
             </div>
@@ -145,12 +143,12 @@ const WaitlistSection = () => {
             <button
               type="submit"
               disabled={loading}
-              className="gradient-btn w-full text-center disabled:opacity-50"
+              className="w-full bg-[#1a2b3c] hover:bg-[#111e2b] text-white py-4 rounded-xl font-bold shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-2"
             >
               {loading ? "Submitting..." : "Join the Waitlist"}
             </button>
 
-            <p className="text-center text-xs text-muted-foreground">
+            <p className="text-center text-xs text-gray-400 font-medium">
               No spam. No commitment. Just early access.
             </p>
           </motion.form>

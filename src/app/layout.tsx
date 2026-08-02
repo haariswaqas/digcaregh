@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { SidebarProvider } from "@/contexts/SidebarContext";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Providers from "@/components/Providers";
-import AppSidebar from "@/components/AppSidebar";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import MainWrapper from "@/components/MainWrapper";
@@ -37,18 +35,15 @@ export default function RootLayout({
       <body>
         <Providers>
           <TooltipProvider>
-            <SidebarProvider>
-              <Toaster />
-              <Sonner />
-              <div className="min-h-screen bg-background">
-                <AppSidebar />
-                <Navbar />
-                <MainWrapper>
-                  {children}
-                  <Footer />
-                </MainWrapper>
-              </div>
-            </SidebarProvider>
+            <Toaster />
+            <Sonner />
+            <div className="min-h-screen bg-background">
+              <Navbar />
+              <MainWrapper>
+                {children}
+                <Footer />
+              </MainWrapper>
+            </div>
           </TooltipProvider>
         </Providers>
       </body>

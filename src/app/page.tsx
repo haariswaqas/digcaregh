@@ -6,18 +6,20 @@ import HowItWorksSection from "@/components/sections/HowItWorksSection";
 import RolesSection from "@/components/sections/RolesSection";
 import WaitlistSection from "@/components/sections/WaitlistSection";
 import ContactSection from "@/components/sections/ContactSection";
+import ExploreSection from "@/components/sections/ExploreSection";
 
 export default function Home() {
   return (
     <>
       <HeroSection />
-      <AboutSection />
+      {/* <AboutSection /> */}
       <FeaturesSection />
       <HealthCardSection />
       <HowItWorksSection />
       <RolesSection />
-      <WaitlistSection />
-      <ContactSection />
+      {/* <WaitlistSection /> */}
+      {/* <ContactSection /> */}
+      <ExploreSection />
     </>
   );
 }

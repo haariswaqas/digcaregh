@@ -1,12 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { Menu } from "lucide-react";
-import { useSidebar } from "@/contexts/SidebarContext";
 import { usePathname, useRouter } from "next/navigation";
 
 const Navbar = () => {
-  const { toggleOpen, toggleCollapsed, isCollapsed } = useSidebar();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -17,45 +14,23 @@ const Navbar = () => {
 
   const handleWaitlist = () => {
     if (pathname === "/") {
-      scrollTo("waitlist");
+      scrollTo("footer");
     } else {
-      router.push("/#waitlist");
+      router.push("/#footer");
     }
   };
 
   return (
-    <header
-      className={`fixed top-0 right-0 z-30 transition-all duration-300 ${isCollapsed ? "lg:left-0" : "lg:left-64"
-        } left-0`}
-    >
-      <div className="sidebar-glass glow-border border-b">
-        <div className="flex items-center justify-between px-4 h-14 max-w-full">
-          <div className="flex items-center gap-2">
-            <button
-              onClick={toggleOpen}
-              className="lg:hidden p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-white/5 transition-colors"
-              aria-label="Open menu"
-            >
-              <Menu size={20} />
-            </button>
-            <button
-              onClick={toggleCollapsed}
-              className="hidden lg:flex p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-white/5 transition-colors"
-              aria-label="Toggle sidebar"
-            >
-              <Menu size={20} />
-            </button>
-            {/* Logo only visible when sidebar is collapsed */}
-            <Link
-              href="/"
-              className={`flex items-center transition-all duration-300 ${isCollapsed ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none lg:opacity-0"
-                } lg:block`}
-            >
-              <img src="/assets/digicareLogo.png" alt="DigCare" className="h-7" />
+    <header className="fixed top-0 inset-x-0 z-50 bg-white transition-all duration-300">
+      <div className="max-w-[1200px] mx-auto">
+        <div className="flex items-center justify-between px-6 h-16">
+          <div className="flex items-center">
+            <Link href="/" className="flex items-center transition-opacity hover:opacity-80">
+              <img src="/assets/digicareLogo.png" alt="DigCare" className="h-10" />
             </Link>
           </div>
 
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-8">
             {[
               { label: "Features", id: "features" },
               { label: "Health Card", id: "health-card" },
@@ -65,7 +40,7 @@ const Navbar = () => {
               <button
                 key={item.id}
                 onClick={() => scrollTo(item.id)}
-                className="px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-white/5 rounded-md transition-all"
+                className="text-[14px] font-medium text-gray-600 hover:text-[#0a9c5a] transition-colors"
               >
                 {item.label}
               </button>
@@ -74,9 +49,9 @@ const Navbar = () => {
 
           <button
             onClick={handleWaitlist}
-            className="gradient-btn text-sm py-2 px-4"
+            className="bg-[#30708f] text-white hover:bg-[#255a73] transition-colors text-sm py-2 px-6 rounded-full font-semibold shadow-sm"
           >
-            Join the Waitlist
+            Join Waitlist
           </button>
         </div>
       </div>
