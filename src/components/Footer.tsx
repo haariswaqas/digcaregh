@@ -71,18 +71,19 @@ const Footer = () => {
           <div className="md:col-span-6">
             <img src="/assets/digicareLogo.png" alt="DigCare" className="h-6 mb-6" />
             <div className="flex gap-3">
-              <a href="#" aria-label="Instagram" className="w-9 h-9 rounded-full bg-[#f4f5f7] flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors">
+              <a href="https://www.instagram.com/digcareofficial" target="_blank"
+                rel="noopener noreferrer" aria-label="Instagram" className="w-9 h-9 rounded-full bg-[#f4f5f7] flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors">
                 <InstagramIcon />
               </a>
-              <a href="#" aria-label="X (Twitter)" className="w-9 h-9 rounded-full bg-[#f4f5f7] flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors">
+              <a href="https://x.com/DigcareSoftware" target="_blank"
+                rel="noopener noreferrer" aria-label="X (Twitter)" className="w-9 h-9 rounded-full bg-[#f4f5f7] flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors">
                 <XIcon />
               </a>
-              <a href="#" aria-label="LinkedIn" className="w-9 h-9 rounded-full bg-[#f4f5f7] flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors">
+              <a href="https://www.linkedin.com/company/digcare/" target="_blank"
+                rel="noopener noreferrer" aria-label="LinkedIn" className="w-9 h-9 rounded-full bg-[#f4f5f7] flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors">
                 <LinkedInIcon />
               </a>
-              <a href="#" aria-label="LinkedIn Alternate" className="w-9 h-9 rounded-full bg-[#f4f5f7] flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors">
-                <LinkedInIcon />
-              </a>
+
             </div>
           </div>
 

@@ -52,8 +52,7 @@ const RolesSection = () => {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
               className="text-left flex flex-col"
-            >
-              <div className="w-full aspect-square mb-5 rounded-2xl overflow-hidden bg-gray-200">
+            ><div className="w-full h-80 mb-5 rounded-2xl overflow-hidden bg-gray-200">
                 <img
                   src={role.image}
                   alt={role.title}

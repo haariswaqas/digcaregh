@@ -1,6 +1,84 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+
+interface StepImageProps {
+  images: string[];
+  alt: string;
+}
+
+const StepImage = ({ images, alt }: StepImageProps) => {
+  const [hovered, setHovered] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    if (!hovered) {
+      setActiveIndex(0);
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % images.length);
+    }, 1400);
+
+    return () => clearInterval(interval);
+  }, [hovered, images.length]);
+
+  return (
+    <div
+      className="relative w-full max-w-[300px] h-full flex items-end justify-center"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {images.map((src, index) => (
+        <img
+          key={src}
+          src={src}
+          alt={alt}
+          className={`absolute inset-x-0 bottom-0 w-full max-w-[300px] h-auto object-contain transition-opacity duration-700 ease-in-out ${index === activeIndex ? "opacity-100" : "opacity-0"
+            }`}
+        />
+      ))}
+    </div>
+  );
+};
+
+const steps = [
+  {
+    label: "STEP 1",
+    title: "Download DigCare",
+    description:
+      "Readily available on IOS & Android. Works with your existing NHIS Number - no extra paperwork",
+    images: [
+      "assets/DownloadAppComp1.png",
+      "assets/DownloadAppComp2.png",
+      "assets/DownloadAppComp3.png",
+    ],
+  },
+  {
+    label: "STEP 2",
+    title: "Create Your Profile",
+    description:
+      "Sign up as a patient, doctor, pharmacist, lab technician or hospital manager.",
+    images: [
+      "assets/CreateProfileComp1.png",
+      "assets/CreateProfileComp2.png",
+      "assets/CreateProfileComp3.png",
+    ],
+  },
+  {
+    label: "STEP 3",
+    title: "Access Your Healthcare",
+    description:
+      "Book appointments, consult doctors, manage your health card, and more — all in one place.",
+    images: [
+      "assets/AccessHealthComp1.png",
+      "assets/AccessHealthComp2.png",
+      "assets/AccessHealthComp3.png",
+    ],
+  },
+];
 
 const HowItWorksSection = () => {
   return (
@@ -26,77 +104,27 @@ const HowItWorksSection = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* STEP 1 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="flex flex-col h-full"
-          >
-            {/* Image Container */}
-            <div className="bg-[#f4f5f7] pt-10 px-6 rounded-t-3xl flex-grow flex justify-center items-end overflow-hidden h-[420px] mb-8">
-              {/* Screenshot for Step 1: Download */}
-              <img
-                src="assets/DownloadAppComp1.png"
-                alt="Download DigCare app screen"
-                className="w-full max-w-[300px] h-auto object-contain"
-              />
-            </div>
-            {/* Text */}
-            <div className="text-left">
-              <div className="text-xs font-bold text-gray-500 mb-3 tracking-widest uppercase">STEP 1</div>
-              <h3 className="text-[22px] font-heading font-bold text-gray-900 mb-3">Download DigCare</h3>
-              <p className="text-gray-500 leading-relaxed text-[15px]">Readily available on IOS & Android. Works with your existing NHIS Number - no extra paperwork</p>
-            </div>
-          </motion.div>
-
-          {/* STEP 2 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="flex flex-col h-full"
-          >
-            <div className="bg-[#f4f5f7] pt-10 px-6 rounded-t-3xl flex-grow flex justify-center items-end overflow-hidden h-[420px] mb-8">
-              {/* Screenshot for Step 2: Create Account */}
-              <img
-                src="assets/CreateProfileComp1.png"
-                alt="Create your DigCare profile screen"
-                className="w-full max-w-[300px] h-auto object-contain"
-              />
-            </div>
-            <div className="text-left">
-              <div className="text-xs font-bold text-gray-500 mb-3 tracking-widest uppercase">STEP 2</div>
-              <h3 className="text-[22px] font-heading font-bold text-gray-900 mb-3">Create Your Profile</h3>
-              <p className="text-gray-500 leading-relaxed text-[15px]">Sign up as a patient, doctor, pharmacist, lab technician or hospital manager.</p>
-            </div>
-          </motion.div>
-
-          {/* STEP 3 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-            className="flex flex-col h-full"
-          >
-            <div className="bg-[#f4f5f7] pt-10 px-6 rounded-t-3xl flex-grow flex justify-center items-end overflow-hidden h-[420px] mb-8">
-              {/* Screenshot for Step 3: Appointments */}
-              <img
-                src="assets/AccessHealthComp1.png"
-                alt="Appointments screen"
-                className="w-full max-w-[300px] h-auto object-contain"
-              />
-            </div>
-            <div className="text-left">
-              <div className="text-xs font-bold text-gray-500 mb-3 tracking-widest uppercase">STEP 3</div>
-              <h3 className="text-[22px] font-heading font-bold text-gray-900 mb-3">Access Your Healthcare</h3>
-              <p className="text-gray-500 leading-relaxed text-[15px]">Book appointments, consult doctors, manage your health card, and more — all in one place.</p>
-            </div>
-          </motion.div>
-
+          {steps.map((step, i) => (
+            <motion.div
+              key={step.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="flex flex-col h-full"
+            >
+              {/* Image Container */}
+              <div className="bg-[#f4f5f7] pt-10 px-6 rounded-t-3xl flex-grow flex justify-center items-end overflow-hidden h-[420px] mb-8">
+                <StepImage images={step.images} alt={step.title} />
+              </div>
+              {/* Text */}
+              <div className="text-left">
+                <div className="text-xs font-bold text-gray-500 mb-3 tracking-widest uppercase">{step.label}</div>
+                <h3 className="text-[22px] font-heading font-bold text-gray-900 mb-3">{step.title}</h3>
+                <p className="text-gray-500 leading-relaxed text-[15px]">{step.description}</p>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
