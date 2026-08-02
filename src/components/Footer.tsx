@@ -66,7 +66,7 @@ const Footer = () => {
     <footer id="footer" className="bg-[#fdfdfd] pt-16 pb-8 overflow-hidden relative">
       <div className="max-w-[1200px] mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
-          
+
           {/* Logo & Socials */}
           <div className="md:col-span-6">
             <img src="/assets/digicareLogo.png" alt="DigCare" className="h-6 mb-6" />
@@ -119,14 +119,14 @@ const Footer = () => {
             </div>
           ) : (
             <form className="flex flex-col sm:flex-row gap-4" onSubmit={handleSubmit}>
-              <input 
-                type="email" 
+              <input
+                type="email"
                 name="email"
                 required
-                placeholder="your@email.com" 
-                className="flex-1 bg-white border border-gray-200 rounded-full px-5 py-3 text-sm outline-none focus:border-[#31708f] shadow-sm"
+                placeholder="your@email.com"
+                className="flex-1 bg-white border border-gray-200 rounded-full px-5 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none focus:border-[#31708f] shadow-sm"
               />
-              <button 
+              <button
                 type="submit"
                 disabled={loading}
                 className="bg-[#31708f] text-white rounded-full px-10 py-3 text-sm font-medium hover:bg-[#255871] transition-colors shadow-sm disabled:opacity-70 disabled:cursor-not-allowed whitespace-nowrap"
@@ -142,7 +142,7 @@ const Footer = () => {
           <p className="text-[13px] text-gray-500 font-medium z-10 pb-4">
             ©2025,Digcare. All Rights Reserved
           </p>
-          
+
           <div className="absolute right-0 bottom-[-20px] pointer-events-none select-none z-0 overflow-hidden">
             <span className="text-[140px] md:text-[200px] font-bold text-[#f0f4f8] leading-[0.75] tracking-tighter block mr-[-20px]">DigCare</span>
           </div>
