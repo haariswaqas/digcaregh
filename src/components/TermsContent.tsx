@@ -146,7 +146,7 @@ export default function TermsContent() {
 
           <div className="bg-white/80 backdrop-blur-sm border border-gray-200/80 rounded-2xl p-5 md:p-6 shadow-xs max-w-3xl">
             <p className="text-gray-700 leading-relaxed text-base">
-              By creating an account on DigCare, you agree to be bound by these Terms of Service ("Terms"). If you do not agree, you may not use the platform.
+              By creating an account on DigCare, you agree to be bound by these Terms of Service. If you do not agree, you may not use the platform.
             </p>
           </div>
 
@@ -219,27 +219,24 @@ export default function TermsContent() {
                     <button
                       key={sec.id}
                       onClick={() => scrollToSection(sec.id)}
-                      className={`w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-all ${
-                        isActive
-                          ? "bg-[#31708f] text-white font-semibold shadow-xs"
-                          : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                      }`}
+                      className={`w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-all ${isActive
+                        ? "bg-[#31708f] text-white font-semibold shadow-xs"
+                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                        }`}
                     >
                       <span
-                        className={`w-6 h-6 rounded-lg flex items-center justify-center text-[11px] font-bold shrink-0 ${
-                          isActive
-                            ? "bg-white/20 text-white"
-                            : "bg-gray-100 text-gray-500"
-                        }`}
+                        className={`w-6 h-6 rounded-lg flex items-center justify-center text-[11px] font-bold shrink-0 ${isActive
+                          ? "bg-white/20 text-white"
+                          : "bg-gray-100 text-gray-500"
+                          }`}
                       >
                         {sec.number}
                       </span>
                       <span className="truncate flex-1">{sec.title}</span>
                       <ChevronRight
                         size={14}
-                        className={`shrink-0 transition-transform ${
-                          isActive ? "translate-x-0.5 text-white" : "text-gray-300"
-                        }`}
+                        className={`shrink-0 transition-transform ${isActive ? "translate-x-0.5 text-white" : "text-gray-300"
+                          }`}
                       />
                     </button>
                   );
@@ -259,12 +256,12 @@ export default function TermsContent() {
                   <ArrowUpRight size={14} />
                 </Link>
                 <a
-                  href="mailto:legal@DigCare.com"
+                  href="mailto:support@digcaregh.com"
                   className="flex items-center justify-between text-xs font-semibold text-gray-600 hover:text-gray-900 p-2 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   <span className="flex items-center gap-2">
                     <Mail size={14} />
-                    <span>legal@DigCare.com</span>
+                    <span>support@digcaregh.com</span>
                   </span>
                   <ArrowUpRight size={14} />
                 </a>

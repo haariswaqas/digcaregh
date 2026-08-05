@@ -102,10 +102,10 @@ const Footer = () => {
           <div className="md:col-span-3">
             <h4 className="font-semibold text-gray-800 mb-5 text-[15px]">Legal & Compliance</h4>
             <ul className="space-y-3.5">
-              <li><Link href="/terms" className="text-[14px] font-medium text-[#31708f] hover:text-[#255871] transition-colors">Terms of Service</Link></li>
-              <li><Link href="/privacy" className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors">Privacy Policy</Link></li>
-              <li><Link href="/#contact" className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors">Support & Disputes</Link></li>
-              <li><a href="mailto:legal@DigCare.com" className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors">legal@DigCare.com</a></li>
+              <li><Link href="/terms-of-service" className="text-[14px] font-medium text-[#31708f] hover:text-[#255871] transition-colors">Terms of Service</Link></li>
+              <li><Link href="/privacy-policy" className="text-[14px] font-medium text-[#31708f] hover:text-[#255871] transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/#refund-policy" className="text-[14px] font-medium text-[#31708f] hover:text-[#255871] transition-colors">Refund Policy</Link></li>
+              <li><a href="mailto:support@digcaregh.com" className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors">support@digcaregh.com</a></li>
             </ul>
           </div>
         </div>

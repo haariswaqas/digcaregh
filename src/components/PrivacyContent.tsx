@@ -194,27 +194,24 @@ export default function PrivacyContent() {
                     <button
                       key={sec.id}
                       onClick={() => scrollToSection(sec.id)}
-                      className={`w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-all ${
-                        isActive
+                      className={`w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-all ${isActive
                           ? "bg-[#0a9c5a] text-white font-semibold shadow-xs"
                           : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                      }`}
+                        }`}
                     >
                       <span
-                        className={`w-6 h-6 rounded-lg flex items-center justify-center text-[11px] font-bold shrink-0 ${
-                          isActive
+                        className={`w-6 h-6 rounded-lg flex items-center justify-center text-[11px] font-bold shrink-0 ${isActive
                             ? "bg-white/20 text-white"
                             : "bg-gray-100 text-gray-500"
-                        }`}
+                          }`}
                       >
                         {sec.number}
                       </span>
                       <span className="truncate flex-1">{sec.title}</span>
                       <ChevronRight
                         size={14}
-                        className={`shrink-0 transition-transform ${
-                          isActive ? "translate-x-0.5 text-white" : "text-gray-300"
-                        }`}
+                        className={`shrink-0 transition-transform ${isActive ? "translate-x-0.5 text-white" : "text-gray-300"
+                          }`}
                       />
                     </button>
                   );
@@ -234,12 +231,12 @@ export default function PrivacyContent() {
                   <ArrowUpRight size={14} />
                 </Link>
                 <a
-                  href="mailto:privacy@DigCare.com"
+                  href="mailto:support@digcaregh.com"
                   className="flex items-center justify-between text-xs font-semibold text-gray-600 hover:text-gray-900 p-2 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   <span className="flex items-center gap-2">
                     <Mail size={14} />
-                    <span>privacy@DigCare.com</span>
+                    <span>support@digcaregh.com</span>
                   </span>
                   <ArrowUpRight size={14} />
                 </a>
