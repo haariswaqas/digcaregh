@@ -23,6 +23,7 @@ import {
   AlertTriangle,
   Mail,
   ChevronRight,
+  ChevronDown,
   Sparkles,
   ArrowUpRight,
 } from "lucide-react";
@@ -50,6 +51,7 @@ const sections = [
 export default function TermsContent() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeSection, setActiveSection] = useState("eligibility");
+  const [mobileTocOpen, setMobileTocOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -160,9 +162,9 @@ export default function TermsContent() {
       </header>
 
       {/* Main Content & Sidebar Grid */}
-      <div className="max-w-[1200px] mx-auto px-6 pt-10">
+      <div className="max-w-[1200px] mx-auto px-4 md:px-6 pt-6 md:pt-10">
         {/* Emergency Notice Banner */}
-        <div className="mb-10 bg-amber-50 border border-amber-200/80 rounded-2xl p-5 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-4 shadow-xs">
+        <div className="mb-8 bg-amber-50 border border-amber-200/80 rounded-2xl p-5 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-4 shadow-xs">
           <div className="p-3 bg-amber-500/10 rounded-xl text-amber-700 shrink-0">
             <AlertTriangle size={24} />
           </div>
@@ -182,10 +184,80 @@ export default function TermsContent() {
           </a>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        {/* Mobile Sticky Navigation Dropdown Bar */}
+        <div className="lg:hidden mb-6 sticky top-16 sm:top-20 z-30">
+          <div className="bg-white/95 backdrop-blur-md border border-gray-200/90 rounded-2xl shadow-md p-3.5">
+            <button
+              onClick={() => setMobileTocOpen(!mobileTocOpen)}
+              aria-label="Toggle Table of Contents"
+              className="w-full flex items-center justify-between text-left font-bold text-gray-900 text-xs sm:text-sm"
+            >
+              <div className="flex items-center gap-2 truncate pr-2">
+                <FileText size={16} className="text-[#31708f] shrink-0" />
+                <span className="truncate">
+                  {sections.find((s) => s.id === activeSection)?.number}. {sections.find((s) => s.id === activeSection)?.title || "Table of Contents"}
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5 text-xs text-[#31708f] font-semibold shrink-0 bg-sky-50 px-2.5 py-1 rounded-lg">
+                <span>{mobileTocOpen ? "Close" : "Contents"}</span>
+                <ChevronDown className={`transition-transform duration-200 ${mobileTocOpen ? "rotate-180" : ""}`} size={14} />
+              </div>
+            </button>
+
+            {mobileTocOpen && (
+              <div className="mt-3 pt-3 border-t border-gray-100 max-h-[60vh] overflow-y-auto space-y-1">
+                {filteredSections.map((sec) => {
+                  const isActive = activeSection === sec.id;
+                  return (
+                    <button
+                      key={sec.id}
+                      onClick={() => {
+                        scrollToSection(sec.id);
+                        setMobileTocOpen(false);
+                      }}
+                      className={`w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-all ${
+                        isActive
+                          ? "bg-[#31708f] text-white font-semibold shadow-xs"
+                          : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                      }`}
+                    >
+                      <span
+                        className={`w-6 h-6 rounded-lg flex items-center justify-center text-[11px] font-bold shrink-0 ${
+                          isActive ? "bg-white/20 text-white" : "bg-gray-100 text-gray-500"
+                        }`}
+                      >
+                        {sec.number}
+                      </span>
+                      <span className="truncate flex-1">{sec.title}</span>
+                      <ChevronRight
+                        size={14}
+                        className={`shrink-0 transition-transform ${isActive ? "translate-x-0.5 text-white" : "text-gray-300"}`}
+                      />
+                    </button>
+                  );
+                })}
+                <div className="pt-2 border-t border-gray-100">
+                  <Link
+                    href="/privacy-policy"
+                    onClick={() => setMobileTocOpen(false)}
+                    className="flex items-center justify-between text-xs font-semibold text-[#31708f] hover:text-[#255871] p-2 rounded-lg hover:bg-sky-50 transition-colors"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Shield size={14} />
+                      <span>View Privacy Policy</span>
+                    </span>
+                    <ArrowUpRight size={14} />
+                  </Link>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
           {/* Sticky Table of Contents Sidebar */}
-          <aside className="lg:col-span-4 sticky top-20 z-20">
-            <div className="bg-white border border-gray-200/90 rounded-2xl p-5 shadow-xs max-h-[calc(100vh-100px)] overflow-y-auto">
+          <aside className="hidden lg:block lg:col-span-4 lg:sticky lg:top-24 z-20">
+            <div className="bg-white border border-gray-200/90 rounded-2xl p-5 shadow-xs max-h-[calc(100vh-120px)] overflow-y-auto">
               <div className="flex items-center justify-between pb-4 mb-4 border-b border-gray-100">
                 <h3 className="font-bold text-gray-900 text-sm uppercase tracking-wider flex items-center gap-2">
                   <FileText size={16} className="text-[#31708f]" />
@@ -231,7 +303,7 @@ export default function TermsContent() {
               {/* Quick links to Privacy Policy and Contact */}
               <div className="mt-6 pt-4 border-t border-gray-100 space-y-2">
                 <Link
-                  href="/privacy"
+                  href="/privacy-policy"
                   className="flex items-center justify-between text-xs font-semibold text-[#31708f] hover:text-[#255871] p-2 rounded-lg hover:bg-sky-50 transition-colors"
                 >
                   <span className="flex items-center gap-2">
