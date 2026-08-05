@@ -111,22 +111,7 @@ export default function TermsContent() {
               <span>Legal Document</span>
             </div>
 
-            <div className="flex items-center gap-3">
-              <button
-                onClick={handleCopyLink}
-                className="inline-flex items-center gap-1.5 text-xs font-medium text-gray-600 bg-white hover:bg-gray-50 border border-gray-200 px-3.5 py-2 rounded-lg transition-colors shadow-xs"
-              >
-                {copied ? <Check size={14} className="text-green-600" /> : <Copy size={14} />}
-                <span>{copied ? "Link Copied" : "Share"}</span>
-              </button>
-              <button
-                onClick={handlePrint}
-                className="inline-flex items-center gap-1.5 text-xs font-medium text-white bg-[#31708f] hover:bg-[#255871] px-4 py-2 rounded-lg transition-colors shadow-xs"
-              >
-                <Printer size={14} />
-                <span>Print / Save PDF</span>
-              </button>
-            </div>
+
           </div>
 
           <h1 className="text-3xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
@@ -1000,10 +985,10 @@ export default function TermsContent() {
                 </p>
               </div>
               <a
-                href="mailto:legal@DigCare.com"
+                href="mailto:support@digcaregh.com"
                 className="shrink-0 bg-white hover:bg-sky-50 text-[#31708f] font-bold text-sm px-6 py-3 rounded-xl transition-all shadow-sm flex items-center gap-2"
               >
-                <span>Email legal@DigCare.com</span>
+                <span>Email support@digcaregh.com</span>
                 <ArrowUpRight size={16} />
               </a>
             </div>

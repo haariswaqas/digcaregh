@@ -108,22 +108,7 @@ export default function PrivacyContent() {
               <span>Data Protection & Privacy</span>
             </div>
 
-            <div className="flex items-center gap-3">
-              <button
-                onClick={handleCopyLink}
-                className="inline-flex items-center gap-1.5 text-xs font-medium text-gray-600 bg-white hover:bg-gray-50 border border-gray-200 px-3.5 py-2 rounded-lg transition-colors shadow-xs"
-              >
-                {copied ? <Check size={14} className="text-green-600" /> : <Copy size={14} />}
-                <span>{copied ? "Link Copied" : "Share"}</span>
-              </button>
-              <button
-                onClick={handlePrint}
-                className="inline-flex items-center gap-1.5 text-xs font-medium text-white bg-[#0a9c5a] hover:bg-[#08824b] px-4 py-2 rounded-lg transition-colors shadow-xs"
-              >
-                <Printer size={14} />
-                <span>Print / Save PDF</span>
-              </button>
-            </div>
+
           </div>
 
           <h1 className="text-3xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
@@ -195,14 +180,14 @@ export default function PrivacyContent() {
                       key={sec.id}
                       onClick={() => scrollToSection(sec.id)}
                       className={`w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-all ${isActive
-                          ? "bg-[#0a9c5a] text-white font-semibold shadow-xs"
-                          : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                        ? "bg-[#0a9c5a] text-white font-semibold shadow-xs"
+                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                         }`}
                     >
                       <span
                         className={`w-6 h-6 rounded-lg flex items-center justify-center text-[11px] font-bold shrink-0 ${isActive
-                            ? "bg-white/20 text-white"
-                            : "bg-gray-100 text-gray-500"
+                          ? "bg-white/20 text-white"
+                          : "bg-gray-100 text-gray-500"
                           }`}
                       >
                         {sec.number}
@@ -648,7 +633,7 @@ export default function PrivacyContent() {
 
               <div className="p-4 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 flex items-center justify-between">
                 <span>To exercise any of these rights, contact our Data Protection Officer:</span>
-                <a href="mailto:privacy@DigCare.com" className="text-[#0a9c5a] font-bold underline">privacy@DigCare.com</a>
+                <a href="mailto:support@digcaregh.com" className="text-[#0a9c5a] font-bold underline">support@digcaregh.com</a>
               </div>
             </section>
 
