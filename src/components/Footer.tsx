@@ -91,21 +91,21 @@ const Footer = () => {
           <div className="md:col-span-3">
             <h4 className="font-semibold text-gray-800 mb-5 text-[15px]">Quick Links</h4>
             <ul className="space-y-3.5">
-              <li><Link href="#features" className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors">App Features</Link></li>
-              <li><Link href="#how-it-works" className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors">How it works</Link></li>
+              <li><Link href="/#features" className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors">App Features</Link></li>
+              <li><Link href="/#how-it-works" className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors">How it works</Link></li>
               <li><Link href="/services/health-card" className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors">Health Card</Link></li>
-              <li><Link href="#contact" className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors">Contact Us</Link></li>
+              <li><Link href="/#contact" className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors">Contact Us</Link></li>
             </ul>
           </div>
 
-          {/* Explore */}
+          {/* Legal & Policy */}
           <div className="md:col-span-3">
-            <h4 className="font-semibold text-gray-800 mb-5 text-[15px]">Explore</h4>
+            <h4 className="font-semibold text-gray-800 mb-5 text-[15px]">Legal & Compliance</h4>
             <ul className="space-y-3.5">
-              <li><Link href="#" className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors">Subsidiaries</Link></li>
-              <li><Link href="#" className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors">Projects</Link></li>
-              <li><Link href="#" className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors">News</Link></li>
-              <li><Link href="#" className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors">FAQs</Link></li>
+              <li><Link href="/terms" className="text-[14px] font-medium text-[#31708f] hover:text-[#255871] transition-colors">Terms of Service</Link></li>
+              <li><Link href="/privacy" className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/#contact" className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors">Support & Disputes</Link></li>
+              <li><a href="mailto:legal@DigCare.com" className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors">legal@DigCare.com</a></li>
             </ul>
           </div>
         </div>
