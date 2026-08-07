@@ -191,16 +191,14 @@ export default function PrivacyContent() {
                         scrollToSection(sec.id);
                         setMobileTocOpen(false);
                       }}
-                      className={`w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-all ${
-                        isActive
-                          ? "bg-[#0a9c5a] text-white font-semibold shadow-xs"
-                          : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                      }`}
+                      className={`w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-all ${isActive
+                        ? "bg-[#0a9c5a] text-white font-semibold shadow-xs"
+                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                        }`}
                     >
                       <span
-                        className={`w-6 h-6 rounded-lg flex items-center justify-center text-[11px] font-bold shrink-0 ${
-                          isActive ? "bg-white/20 text-white" : "bg-gray-100 text-gray-500"
-                        }`}
+                        className={`w-6 h-6 rounded-lg flex items-center justify-center text-[11px] font-bold shrink-0 ${isActive ? "bg-white/20 text-white" : "bg-gray-100 text-gray-500"
+                          }`}
                       >
                         {sec.number}
                       </span>
@@ -288,12 +286,12 @@ export default function PrivacyContent() {
                   <ArrowUpRight size={14} />
                 </Link>
                 <a
-                  href="mailto:support@digcaregh.com"
+                  href="mailto:digcaregh@gmail.com"
                   className="flex items-center justify-between text-xs font-semibold text-gray-600 hover:text-gray-900 p-2 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   <span className="flex items-center gap-2">
                     <Mail size={14} />
-                    <span>support@digcaregh.com</span>
+                    <span>digcaregh@gmail.com</span>
                   </span>
                   <ArrowUpRight size={14} />
                 </a>
@@ -657,7 +655,7 @@ export default function PrivacyContent() {
 
               <div className="p-4 bg-gray-50 border border-gray-200 rounded-xl text-xs text-gray-600 flex items-center justify-between gap-4">
                 <span>You may request immediate deletion of your verification documents at any time.</span>
-                <a href="mailto:support@DigCare.com" className="text-[#0a9c5a] font-bold shrink-0 hover:underline">Contact Support</a>
+                <a href="mailto:digcaregh@gmail.com" className="text-[#0a9c5a] font-bold shrink-0 hover:underline">Contact Support</a>
               </div>
             </section>
 
@@ -705,7 +703,7 @@ export default function PrivacyContent() {
 
               <div className="p-4 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 flex items-center justify-between">
                 <span>To exercise any of these rights, contact our Data Protection Officer:</span>
-                <a href="mailto:support@digcaregh.com" className="text-[#0a9c5a] font-bold underline">support@digcaregh.com</a>
+                <a href="mailto:digcaregh@gmail.com" className="text-[#0a9c5a] font-bold underline">digcaregh@gmail.com</a>
               </div>
             </section>
 

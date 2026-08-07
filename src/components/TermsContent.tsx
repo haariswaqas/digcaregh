@@ -215,16 +215,14 @@ export default function TermsContent() {
                         scrollToSection(sec.id);
                         setMobileTocOpen(false);
                       }}
-                      className={`w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-all ${
-                        isActive
-                          ? "bg-[#31708f] text-white font-semibold shadow-xs"
-                          : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                      }`}
+                      className={`w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-all ${isActive
+                        ? "bg-[#31708f] text-white font-semibold shadow-xs"
+                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                        }`}
                     >
                       <span
-                        className={`w-6 h-6 rounded-lg flex items-center justify-center text-[11px] font-bold shrink-0 ${
-                          isActive ? "bg-white/20 text-white" : "bg-gray-100 text-gray-500"
-                        }`}
+                        className={`w-6 h-6 rounded-lg flex items-center justify-center text-[11px] font-bold shrink-0 ${isActive ? "bg-white/20 text-white" : "bg-gray-100 text-gray-500"
+                          }`}
                       >
                         {sec.number}
                       </span>
@@ -313,12 +311,12 @@ export default function TermsContent() {
                   <ArrowUpRight size={14} />
                 </Link>
                 <a
-                  href="mailto:support@digcaregh.com"
+                  href="mailto:digcaregh@gmail.com"
                   className="flex items-center justify-between text-xs font-semibold text-gray-600 hover:text-gray-900 p-2 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   <span className="flex items-center gap-2">
                     <Mail size={14} />
-                    <span>support@digcaregh.com</span>
+                    <span>digcaregh@gmail.com</span>
                   </span>
                   <ArrowUpRight size={14} />
                 </a>
@@ -559,7 +557,7 @@ export default function TermsContent() {
                 <div>
                   <h3 className="font-bold text-gray-900 text-base mb-2">4.6 Withdrawal of Telehealth Consent</h3>
                   <p>
-                    You may withdraw consent for telehealth services at any time by contacting <a href="mailto:support@DigCare.com" className="text-[#31708f] underline font-semibold">support@DigCare.com</a>. Withdrawal will prevent you from accessing future video consultations but will not affect consultations already completed.
+                    You may withdraw consent for telehealth services at any time by contacting <a href="mailto:digcaregh@gmail.com" className="text-[#31708f] underline font-semibold">digcaregh@gmail.com</a>. Withdrawal will prevent you from accessing future video consultations but will not affect consultations already completed.
                   </p>
                 </div>
               </div>
@@ -780,7 +778,7 @@ export default function TermsContent() {
                   <h3 className="font-bold text-gray-900 text-base mb-2">8.6 Failed Transactions</h3>
                   <p className="mb-1">If a payment fails, you will be notified and may retry. Services will not be provided until payment is confirmed.</p>
                   <p className="text-xs text-gray-600">
-                    If a payment is debited but fails to verify, contact <a href="mailto:support@DigCare.com" className="text-[#31708f] underline font-medium">support@DigCare.com</a> with your payment reference.
+                    If a payment is debited but fails to verify, contact <a href="mailto:digcaregh@gmail.com" className="text-[#31708f] underline font-medium">digcaregh@gmail.com</a> with your payment reference.
                   </p>
                 </div>
 
@@ -1057,10 +1055,10 @@ export default function TermsContent() {
                 </p>
               </div>
               <a
-                href="mailto:support@digcaregh.com"
+                href="mailto:digcaregh@gmail.com"
                 className="shrink-0 bg-white hover:bg-sky-50 text-[#31708f] font-bold text-sm px-6 py-3 rounded-xl transition-all shadow-sm flex items-center gap-2"
               >
-                <span>Email support@digcaregh.com</span>
+                <span>Email digcaregh@gmail.com</span>
                 <ArrowUpRight size={16} />
               </a>
             </div>
