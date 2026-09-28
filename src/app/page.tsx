@@ -18,7 +18,7 @@ export default function Home() {
       <HowItWorksSection />
       <RolesSection />
       {/* <WaitlistSection /> */}
-      {/* <ContactSection /> */}
+      <ContactSection />
       <ExploreSection />
     </>
   );
