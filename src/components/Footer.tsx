@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { CheckCircle, MapPin, Phone } from "lucide-react";
+import { CheckCircle, MapPin, Phone, Mail } from "lucide-react";
 
 const InstagramIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -124,7 +124,6 @@ const Footer = () => {
               <li><Link href="/terms-of-service" className="text-[14px] font-medium text-[#31708f] hover:text-[#255871] transition-colors">Terms of Service</Link></li>
               <li><Link href="/privacy-policy" className="text-[14px] font-medium text-[#31708f] hover:text-[#255871] transition-colors">Privacy Policy</Link></li>
               <li><Link href="/#refund-policy" className="text-[14px] font-medium text-[#31708f] hover:text-[#255871] transition-colors">Refund Policy</Link></li>
-              <li><a href="mailto:digcaregh@gmail.com" className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors">digcaregh@gmail.com</a></li>
             </ul>
           </div>
 
@@ -152,10 +151,16 @@ const Footer = () => {
                   <a href="tel:+233302528832" className="hover:text-gray-900 transition-colors">
                     (+233) 30 252 8832
                   </a>
-                  <a href="email:digcaregh@gmail.com" className="hover:text-gray-900 transition-colors">
-                    digcaregh@gmail.com
-                  </a>
                 </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <Mail size={18} className="mt-0.5 shrink-0 text-[#31708f]" />
+                <a
+                  href="mailto:digcaregh@gmail.com"
+                  className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors break-all"
+                >
+                  digcaregh@gmail.com
+                </a>
               </li>
             </ul>
           </div>
