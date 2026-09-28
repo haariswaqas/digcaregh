@@ -7,6 +7,7 @@ import RolesSection from "@/components/sections/RolesSection";
 import WaitlistSection from "@/components/sections/WaitlistSection";
 import ContactSection from "@/components/sections/ContactSection";
 import ExploreSection from "@/components/sections/ExploreSection";
+import BlogSection from "@/components/sections/BlogSection";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <HowItWorksSection />
       <RolesSection />
       {/* <WaitlistSection /> */}
+      <BlogSection />
       <ContactSection />
       <ExploreSection />
     </>

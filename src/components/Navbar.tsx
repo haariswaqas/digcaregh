@@ -33,6 +33,7 @@ const Navbar = () => {
           <nav className="hidden md:flex items-center gap-8">
             {[
               { label: "Features", id: "features" },
+              { label: "Blog", id: "blog" },
               { label: "Health Card", id: "health-card" },
               { label: "How It Works", id: "how-it-works" },
               { label: "Contact", id: "contact" },
