@@ -2,10 +2,8 @@
 
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
-import { CheckCircle } from "lucide-react";
-
 import { usePathname, useRouter } from "next/navigation";
-
+import { CheckCircle, MapPin, Phone } from "lucide-react";
 
 const InstagramIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -31,6 +29,7 @@ const Footer = () => {
   const pathname = usePathname();
   const router = useRouter();
 
+  // Scroll on the home page, otherwise go to the home page and jump to the section
   const goToSection = (id: string) => {
     if (pathname === "/") {
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -38,6 +37,7 @@ const Footer = () => {
       router.push(`/#${id}`);
     }
   };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -77,10 +77,10 @@ const Footer = () => {
   return (
     <footer id="footer" className="bg-[#fdfdfd] pt-16 pb-8 overflow-hidden relative">
       <div className="max-w-[1200px] mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-12 mb-16">
 
           {/* Logo & Socials */}
-          <div className="md:col-span-6">
+          <div className="sm:col-span-2 lg:col-span-3">
             <img src="/assets/digicareLogo.png" alt="DigCare" className="h-6 mb-6" />
             <div className="flex gap-3">
               <a href="https://www.instagram.com/digcareofficial" target="_blank"
@@ -95,12 +95,11 @@ const Footer = () => {
                 rel="noopener noreferrer" aria-label="LinkedIn" className="w-9 h-9 rounded-full bg-[#f4f5f7] flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors">
                 <LinkedInIcon />
               </a>
-
             </div>
           </div>
 
           {/* Quick Links */}
-          <div className="md:col-span-3">
+          <div className="lg:col-span-2">
             <h4 className="font-semibold text-gray-800 mb-5 text-[15px]">Quick Links</h4>
             <ul className="space-y-3.5">
               <li><Link href="/#features" className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors">App Features</Link></li>
@@ -119,13 +118,45 @@ const Footer = () => {
           </div>
 
           {/* Legal & Policy */}
-          <div className="md:col-span-3">
+          <div className="lg:col-span-3">
             <h4 className="font-semibold text-gray-800 mb-5 text-[15px]">Legal & Compliance</h4>
             <ul className="space-y-3.5">
               <li><Link href="/terms-of-service" className="text-[14px] font-medium text-[#31708f] hover:text-[#255871] transition-colors">Terms of Service</Link></li>
               <li><Link href="/privacy-policy" className="text-[14px] font-medium text-[#31708f] hover:text-[#255871] transition-colors">Privacy Policy</Link></li>
               <li><Link href="/#refund-policy" className="text-[14px] font-medium text-[#31708f] hover:text-[#255871] transition-colors">Refund Policy</Link></li>
               <li><a href="mailto:digcaregh@gmail.com" className="text-[14px] text-gray-500 hover:text-gray-900 transition-colors">digcaregh@gmail.com</a></li>
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div className="lg:col-span-4">
+            <h4 className="font-semibold text-gray-800 mb-5 text-[15px]">Contact Info</h4>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3">
+                <MapPin size={18} className="mt-0.5 shrink-0 text-[#31708f]" />
+                <address className="not-italic text-[14px] leading-relaxed text-gray-500">
+                  No. 9 Ecuador Street, Agbogba Assemblies.
+                  <br />
+                  GE.164.1559 Accra, Ghana
+                </address>
+              </li>
+              <li className="flex items-start gap-3">
+                <Phone size={18} className="mt-0.5 shrink-0 text-[#31708f]" />
+                <div className="flex flex-col gap-1 text-[14px] text-gray-500">
+                  <a href="tel:+233244062988" className="hover:text-gray-900 transition-colors">
+                    (+233) 24 406 2988
+                  </a>
+                  <a href="tel:+233268808886" className="hover:text-gray-900 transition-colors">
+                    (+233) 26 880 8886
+                  </a>
+                  <a href="tel:+233302528832" className="hover:text-gray-900 transition-colors">
+                    (+233) 30 252 8832
+                  </a>
+                  <a href="email:digcaregh@gmail.com" className="hover:text-gray-900 transition-colors">
+                    digcaregh@gmail.com
+                  </a>
+                </div>
+              </li>
             </ul>
           </div>
         </div>
