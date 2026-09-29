@@ -60,5 +60,5 @@ All refund requests must be submitted directly through the DigCare mobile applic
 If you encounter issues with the in-app refund request feature or have questions about a pending request, please reach out to our Customer Support team:
 
 - **In-App Support:** Navigate to Help & Support > Contact Support
-- **Email:** support@digcare.com
+- **Email:** info@digcaregh.com
 - **Phone:** 1-800-DIG-CARE (1-800-344-2273)

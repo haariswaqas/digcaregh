@@ -256,12 +256,12 @@ export default function RefundContent() {
                   <ArrowUpRight size={14} />
                 </Link>
                 <a
-                  href="mailto:support@digcare.com"
+                  href="mailto:info@digcaregh.com"
                   className="flex items-center justify-between text-xs font-semibold text-gray-600 hover:text-gray-900 p-2 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   <span className="flex items-center gap-2">
                     <Mail size={14} />
-                    <span>support@digcare.com</span>
+                    <span>info@digcaregh.com</span>
                   </span>
                   <ArrowUpRight size={14} />
                 </a>
@@ -513,10 +513,10 @@ export default function RefundContent() {
                   <h4 className="font-bold text-indigo-950 mb-1">In-App Support</h4>
                   <p className="text-xs text-indigo-900">Navigate to Help & Support &gt; Contact Support</p>
                 </div>
-                <a href="mailto:support@digcare.com" className="p-4 bg-indigo-50/50 rounded-xl border border-indigo-100 flex flex-col items-center text-center hover:bg-indigo-100 transition-colors">
+                <a href="mailto:info@digcaregh.com" className="p-4 bg-indigo-50/50 rounded-xl border border-indigo-100 flex flex-col items-center text-center hover:bg-indigo-100 transition-colors">
                   <Mail size={24} className="text-indigo-600 mb-2" />
                   <h4 className="font-bold text-indigo-950 mb-1">Email</h4>
-                  <p className="text-xs text-indigo-900">support@digcare.com</p>
+                  <p className="text-xs text-indigo-900">info@digcaregh.com</p>
                 </a>
                 <a href="tel:18003442273" className="p-4 bg-indigo-50/50 rounded-xl border border-indigo-100 flex flex-col items-center text-center hover:bg-indigo-100 transition-colors">
                   <Phone size={24} className="text-indigo-600 mb-2" />

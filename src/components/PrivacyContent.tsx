@@ -286,12 +286,12 @@ export default function PrivacyContent() {
                   <ArrowUpRight size={14} />
                 </Link>
                 <a
-                  href="mailto:digcaregh@gmail.com"
+                  href="mailto:info@digcaregh.com"
                   className="flex items-center justify-between text-xs font-semibold text-gray-600 hover:text-gray-900 p-2 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   <span className="flex items-center gap-2">
                     <Mail size={14} />
-                    <span>digcaregh@gmail.com</span>
+                    <span>info@digcaregh.com</span>
                   </span>
                   <ArrowUpRight size={14} />
                 </a>
@@ -655,7 +655,7 @@ export default function PrivacyContent() {
 
               <div className="p-4 bg-gray-50 border border-gray-200 rounded-xl text-xs text-gray-600 flex items-center justify-between gap-4">
                 <span>You may request immediate deletion of your verification documents at any time.</span>
-                <a href="mailto:digcaregh@gmail.com" className="text-[#0a9c5a] font-bold shrink-0 hover:underline">Contact Support</a>
+                <a href="mailto:info@digcaregh.com" className="text-[#0a9c5a] font-bold shrink-0 hover:underline">Contact Support</a>
               </div>
             </section>
 
@@ -703,7 +703,7 @@ export default function PrivacyContent() {
 
               <div className="p-4 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 flex items-center justify-between">
                 <span>To exercise any of these rights, contact our Data Protection Officer:</span>
-                <a href="mailto:digcaregh@gmail.com" className="text-[#0a9c5a] font-bold underline">digcaregh@gmail.com</a>
+                <a href="mailto:info@digcaregh.com" className="text-[#0a9c5a] font-bold underline">info@digcaregh.com</a>
               </div>
             </section>
 
@@ -794,10 +794,10 @@ export default function PrivacyContent() {
                 </p>
               </div>
               <a
-                href="mailto:privacy@DigCare.com"
+                href="mailto:info@digcaregh.com"
                 className="shrink-0 bg-white hover:bg-emerald-50 text-[#0a9c5a] font-bold text-sm px-6 py-3 rounded-xl transition-all shadow-sm flex items-center gap-2"
               >
-                <span>Email privacy@DigCare.com</span>
+                <span>Email info@digcaregh.com</span>
                 <ArrowUpRight size={16} />
               </a>
             </div>
