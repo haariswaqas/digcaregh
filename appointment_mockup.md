@@ -43,7 +43,9 @@ marketing website. Follow appointment_mockup.md exactly:
 - Use the app palette in section 3 (deep navy #0B1120 canvas, slate cards #1E293B,
   emerald #10B981 primary, violet #8B5CF6 for telehealth/avatars, teal #14B8A6 for
   completed steps). The app UI is dark-only.
-- Headings in Space Grotesk 700, everything else in Manrope.
+- Use the system sans-serif font (Inter as a stand-in). The style file names
+  Space Grotesk / Manrope, but the app never loads them, so phones show the
+  system font. Keep the sizes and weights from section 3.2.
 - Every screen has the shell from section 4: back button, "STEP X OF Y" pill,
   centred title and subtitle, a 3px emerald progress bar and a labelled step rail.
 - Build the frames listed in section 10 ("Primary storyboard": 6 frames), using
@@ -167,7 +169,9 @@ Loading spinners in the lists are blue `#3B82F6` (the only blue on the screen).
 
 ### 3.2 Typography
 
-| Role | Font | Size / line-height | Weight | Notes |
+> **Correction (found while documenting the Health Card):** the style file asks for Space Grotesk and Manrope, but **the app never loads these fonts** (no `useFonts` call, no font files bundled). On a real phone, every booking screen renders in the **system font** (SF Pro / Roboto). For a mockup that matches the shipped app, use **Inter** (the site's body font) with the sizes and weights below. Use Space Grotesk / Manrope only if the team plans to load them in the app.
+
+| Role | Intended font | Size / line-height | Weight | Notes |
 |---|---|---|---|---|
 | Screen title | Space Grotesk | 20 / 27 | 700 | Centred |
 | Screen subtitle | Manrope | 12 / 18 | 400 | Centred, `muted` |
@@ -190,7 +194,7 @@ Loading spinners in the lists are blue `#3B82F6` (the only blue on the screen).
 | Submit text ("Confirm Appointment") | Manrope | 16 | 900 | Colour `canvas` |
 | Input / textarea | Manrope | 15 (/24 textarea) | 400 | |
 
-Both fonts are already loaded on the website (`globals.css` imports Space Grotesk and Manrope).
+Space Grotesk and Manrope are loaded on the website (`globals.css`), so they are available if the team decides to use the intended fonts.
 
 ### 3.3 Shape, spacing and elevation
 
@@ -808,7 +812,7 @@ The app uses Ionicons. The website uses `lucide-react`. Use these equivalents wh
 Before exporting the mockups, check each frame:
 
 - [ ] Dark navy canvas `#0B1120`, cards `#1E293B` with `#334155` borders.
-- [ ] Space Grotesk for titles and names; Manrope for everything else.
+- [ ] System font (Inter) with the sizes and weights from 3.2 (the app never loads Space Grotesk / Manrope).
 - [ ] Header has: back button, "STEP X OF Y" emerald pill, teal dot, uppercase step label, centred title and subtitle with the exact copy from section 5.
 - [ ] 3px emerald progress bar at the right percentage.
 - [ ] Step rail: teal ticks for completed steps, glowing emerald dot for the current one, grey for upcoming, with labels.

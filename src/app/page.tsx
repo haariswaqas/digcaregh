@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import HeroSection from "@/components/sections/HeroSection";
 import ServicesMarquee from "@/components/sections/ServicesMarquee";
 import LaunchSection from "@/components/sections/LaunchSection";
@@ -21,7 +22,10 @@ export default function Home() {
       <HealthCardSection />
       <HowItWorksSection />
       <RolesSection />
-      <BlogSection />
+      {/* Streamed so a slow blog API never holds up the rest of the page (or navigation to it). */}
+      <Suspense fallback={null}>
+        <BlogSection />
+      </Suspense>
       <ExploreSection />
       <ContactSection />
     </>

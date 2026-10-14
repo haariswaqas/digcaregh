@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { AnimatePresence, motion, useInView, type MotionValue, type PanInfo } from "framer-motion";
 import { Check, ChevronLeft, ChevronRight } from "lucide-react";
-import AppScreen, { SCREEN_BACKDROP } from "@/components/roles/AppScreen";
+import AppScreen, { DEFAULT_SCREEN_ASPECT, SCREEN_BACKDROP } from "@/components/roles/AppScreen";
 import { useAutoAdvance } from "@/hooks/use-auto-advance";
 import type { WalkthroughStep } from "@/app/roles/patients/_data/features";
 
@@ -13,17 +13,26 @@ interface FeatureWalkthroughProps {
   steps: WalkthroughStep[];
   accent: string;
   backdrop?: string;
+  aspect?: string;
+  tone?: "light" | "dark";
 }
 
-function StepProgress({ progress, accent }: { progress: MotionValue<number>; accent: string }) {
+function StepProgress({ progress, accent, dark }: { progress: MotionValue<number>; accent: string; dark: boolean }) {
   return (
-    <span className="absolute inset-x-5 bottom-0 h-[3px] overflow-hidden rounded-full bg-slate-100">
+    <span className={`absolute inset-x-5 bottom-0 h-[3px] overflow-hidden rounded-full ${dark ? "bg-white/10" : "bg-slate-100"}`}>
       <motion.span className="block h-full origin-left rounded-full" style={{ scaleX: progress, background: accent }} />
     </span>
   );
 }
 
-export default function FeatureWalkthrough({ steps, accent, backdrop = SCREEN_BACKDROP }: FeatureWalkthroughProps) {
+export default function FeatureWalkthrough({
+  steps,
+  accent,
+  backdrop = SCREEN_BACKDROP,
+  aspect = DEFAULT_SCREEN_ASPECT,
+  tone = "light",
+}: FeatureWalkthroughProps) {
+  const dark = tone === "dark";
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { margin: "-20% 0px" });
   const { index, select, progress, pause, resume } = useAutoAdvance(steps.length, inView, STEP_MS);
@@ -34,6 +43,10 @@ export default function FeatureWalkthrough({ steps, accent, backdrop = SCREEN_BA
     else if (info.offset.x > 50) select(index - 1);
   };
 
+  const navBtn = dark
+    ? "border-white/15 bg-white/5 text-slate-300 hover:border-white/30 hover:text-white"
+    : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-[#0B1120]";
+
   return (
     <div
       ref={ref}
@@ -42,8 +55,8 @@ export default function FeatureWalkthrough({ steps, accent, backdrop = SCREEN_BA
       className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_420px] lg:gap-16"
     >
       {/* Step list (desktop) */}
-      <ol className="relative hidden lg:block" aria-label="Booking steps">
-        <span className="absolute bottom-8 left-[38px] top-8 w-[2px] bg-slate-100" aria-hidden />
+      <ol className="relative hidden lg:block" aria-label="Steps">
+        <span className={`absolute bottom-8 left-[38px] top-8 w-[2px] ${dark ? "bg-white/10" : "bg-slate-100"}`} aria-hidden />
         <motion.span
           aria-hidden
           className="absolute left-[38px] top-8 w-[2px] origin-top"
@@ -61,7 +74,13 @@ export default function FeatureWalkthrough({ steps, accent, backdrop = SCREEN_BA
                 onClick={() => select(i)}
                 aria-current={active ? "step" : undefined}
                 className={`relative flex w-full items-start gap-5 rounded-2xl px-5 py-4 text-left transition-all duration-300 ${
-                  active ? "bg-white shadow-[0_18px_40px_-22px_rgba(15,23,42,0.35)] ring-1 ring-slate-200/80" : "hover:bg-white/60"
+                  active
+                    ? dark
+                      ? "bg-white/[0.06] ring-1 ring-white/10"
+                      : "bg-white shadow-[0_18px_40px_-22px_rgba(15,23,42,0.35)] ring-1 ring-slate-200/80"
+                    : dark
+                      ? "hover:bg-white/[0.04]"
+                      : "hover:bg-white/60"
                 }`}
               >
                 <span
@@ -71,7 +90,9 @@ export default function FeatureWalkthrough({ steps, accent, backdrop = SCREEN_BA
                       ? { background: accent, color: "#fff", boxShadow: `0 8px 20px -6px ${accent}` }
                       : done
                         ? { background: `${accent}1F`, color: accent }
-                        : { background: "#fff", color: "#94A3B8", boxShadow: "inset 0 0 0 2px #E2E8F0" }
+                        : dark
+                          ? { background: "#0B1120", color: "#64748B", boxShadow: "inset 0 0 0 2px rgba(255,255,255,0.12)" }
+                          : { background: "#fff", color: "#94A3B8", boxShadow: "inset 0 0 0 2px #E2E8F0" }
                   }
                 >
                   {done ? <Check size={16} strokeWidth={3} /> : i + 1}
@@ -79,13 +100,13 @@ export default function FeatureWalkthrough({ steps, accent, backdrop = SCREEN_BA
                 <span className="min-w-0 flex-1 pt-0.5">
                   <span
                     className="font-manrope block text-[11px] font-extrabold uppercase tracking-[1.6px]"
-                    style={{ color: active || done ? accent : "#94A3B8" }}
+                    style={{ color: active || done ? accent : dark ? "#64748B" : "#94A3B8" }}
                   >
                     Step {i + 1} · {s.label}
                   </span>
                   <span
                     className={`font-display mt-0.5 block text-[17px] font-bold leading-snug transition-colors ${
-                      active ? "text-[#0B1120]" : "text-slate-500"
+                      active ? (dark ? "text-white" : "text-[#0B1120]") : dark ? "text-slate-400" : "text-slate-500"
                     }`}
                   >
                     {s.title}
@@ -97,14 +118,14 @@ export default function FeatureWalkthrough({ steps, accent, backdrop = SCREEN_BA
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                        className="font-manrope block overflow-hidden text-[14.5px] leading-[1.65] text-slate-600"
+                        className={`font-manrope block overflow-hidden text-[14.5px] leading-[1.65] ${dark ? "text-slate-400" : "text-slate-600"}`}
                       >
                         <span className="block pt-2">{s.description}</span>
                       </motion.span>
                     )}
                   </AnimatePresence>
                 </span>
-                {active && <StepProgress progress={progress} accent={accent} />}
+                {active && <StepProgress progress={progress} accent={accent} dark={dark} />}
               </button>
             </li>
           );
@@ -114,7 +135,7 @@ export default function FeatureWalkthrough({ steps, accent, backdrop = SCREEN_BA
       {/* Device stage */}
       <div className="mx-auto w-full max-w-[420px]">
         <div
-          className="relative overflow-hidden rounded-[2.5rem] border border-slate-200/70 px-6 pt-6 sm:px-8 sm:pt-8"
+          className={`relative overflow-hidden rounded-[2.5rem] border px-6 pt-6 sm:px-8 sm:pt-8 ${dark ? "border-white/10" : "border-slate-200/70"}`}
           style={{ background: backdrop }}
         >
           <div
@@ -143,7 +164,7 @@ export default function FeatureWalkthrough({ steps, accent, backdrop = SCREEN_BA
                   className={i === 0 ? "relative" : "absolute inset-0"}
                   aria-hidden={i !== index}
                 >
-                  <AppScreen src={s.screen.src} alt={s.screen.alt} sizes="(min-width: 640px) 320px, 80vw" />
+                  <AppScreen src={s.screen.src} alt={s.screen.alt} aspect={aspect} sizes="(min-width: 640px) 320px, 80vw" />
                 </motion.div>
               ))}
             </div>
@@ -164,8 +185,8 @@ export default function FeatureWalkthrough({ steps, accent, backdrop = SCREEN_BA
               <p className="font-manrope text-[11px] font-extrabold uppercase tracking-[1.6px]" style={{ color: accent }}>
                 Step {index + 1} of {steps.length} · {step.label}
               </p>
-              <p className="font-display mt-1.5 text-[20px] font-bold text-[#0B1120]">{step.title}</p>
-              <p className="font-manrope mx-auto mt-2 max-w-[360px] text-[14.5px] leading-[1.65] text-slate-600">
+              <p className={`font-display mt-1.5 text-[20px] font-bold ${dark ? "text-white" : "text-[#0B1120]"}`}>{step.title}</p>
+              <p className={`font-manrope mx-auto mt-2 max-w-[360px] text-[14.5px] leading-[1.65] ${dark ? "text-slate-400" : "text-slate-600"}`}>
                 {step.description}
               </p>
             </motion.div>
@@ -177,7 +198,7 @@ export default function FeatureWalkthrough({ steps, accent, backdrop = SCREEN_BA
             type="button"
             onClick={() => select(index - 1)}
             aria-label="Previous step"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition-all hover:border-slate-300 hover:text-[#0B1120]"
+            className={`flex h-10 w-10 items-center justify-center rounded-full border transition-all ${navBtn}`}
           >
             <ChevronLeft size={18} />
           </button>
@@ -191,7 +212,10 @@ export default function FeatureWalkthrough({ steps, accent, backdrop = SCREEN_BA
                 aria-label={`Step ${i + 1}: ${s.label}`}
                 onClick={() => select(i)}
                 className="h-2 rounded-full transition-all duration-300"
-                style={{ width: i === index ? 24 : 8, background: i === index ? accent : "#CBD5E1" }}
+                style={{
+                  width: i === index ? 24 : 8,
+                  background: i === index ? accent : dark ? "rgba(255,255,255,0.25)" : "#CBD5E1",
+                }}
               />
             ))}
           </div>
@@ -199,7 +223,7 @@ export default function FeatureWalkthrough({ steps, accent, backdrop = SCREEN_BA
             type="button"
             onClick={() => select(index + 1)}
             aria-label="Next step"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition-all hover:border-slate-300 hover:text-[#0B1120]"
+            className={`flex h-10 w-10 items-center justify-center rounded-full border transition-all ${navBtn}`}
           >
             <ChevronRight size={18} />
           </button>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import {
   motion,
   useMotionTemplate,
@@ -9,19 +10,19 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { Check, Eye, Hand, IdCard, QrCode, RotateCcw, ShieldX, X } from "lucide-react";
+import { ArrowUpRight, Check, Eye, Hand, IdCard, QrCode, RotateCcw, ShieldX, X } from "lucide-react";
 import SectionHeading from "@/components/landing/SectionHeading";
 
 const BULLETS = [
-  { icon: IdCard, color: "#059669", title: "Your digital identity", desc: "A unique health card linked to your complete medical profile." },
-  { icon: QrCode, color: "#D97706", title: "Instant QR check-in", desc: "Facilities scan your code to identify you in seconds — no forms." },
-  { icon: Hand, color: "#0D9488", title: "You're in control", desc: "Every record access needs your approval. Your data, your rules." },
+  { icon: IdCard, color: "#059669", title: "Your digital identity", desc: "A Smart Health Card with its own number and QR code, linked to your medical profile." },
+  { icon: QrCode, color: "#D97706", title: "Doctors scan your QR", desc: "At a visit, the doctor scans your code — and you approve it with your PIN on your own phone." },
+  { icon: Hand, color: "#0D9488", title: "Your PIN is the approval", desc: "Nothing is shared until you enter it. Remote requests need a one-time code from you too." },
 ];
 
 const ACCESS_LOG = [
-  { who: "General Clinic · Accra", what: "Requested your full record", status: "approved" as const, when: "2 min ago" },
-  { who: "Partner Pharmacy", what: "Viewed active prescriptions", status: "viewed" as const, when: "1 hr ago" },
-  { who: "Unrecognised provider", what: "Requested lab results", status: "denied" as const, when: "Yesterday" },
+  { who: "Dr. Kwame Mensah", what: "Remote access request · 2 days", status: "approved" as const, when: "2 min ago" },
+  { who: "Osu Wellness Clinic", what: "Card scanned · PIN verified", status: "viewed" as const, when: "1 hr ago" },
+  { who: "Unknown device", what: "Scan attempt · Incorrect PIN", status: "denied" as const, when: "Yesterday" },
 ];
 
 const STATUS_STYLE = {
@@ -140,11 +141,11 @@ function HealthCard3D() {
 
                 <div className="mt-auto">
                   <p className="font-display text-[22px] font-bold tracking-tight sm:text-[24px]">Hamdiyyah Ibrahim</p>
-                  <p className="mt-1 font-mono text-[14px] tracking-[3px] text-white/85 sm:text-[15px]">DGC 0012 3456 7890</p>
+                  <p className="mt-1 font-mono text-[14px] tracking-[3px] text-white/85 sm:text-[15px]">SMART-H4MD-7Q2P</p>
                   <div className="font-manrope mt-4 flex items-end justify-between text-[10px] uppercase tracking-[1.5px] text-white/60">
                     <div>
                       Card type
-                      <p className="text-[13px] font-bold normal-case tracking-normal text-white">Adult</p>
+                      <p className="text-[13px] font-bold normal-case tracking-normal text-white">Smart</p>
                     </div>
                     <div>
                       Valid thru
@@ -165,12 +166,12 @@ function HealthCard3D() {
                 <span className="animate-scan absolute inset-x-1 h-[2px] rounded-full bg-emerald-400 shadow-[0_0_12px_3px_rgba(16,185,129,0.6)]" />
               </div>
               <div className="font-manrope min-w-0">
-                <p className="text-[11px] font-bold uppercase tracking-[1.8px] text-emerald-600">Scan to check in</p>
+                <p className="text-[11px] font-bold uppercase tracking-[1.8px] text-emerald-600">Doctors scan this</p>
                 <p className="font-display mt-1.5 text-[18px] font-bold leading-snug text-[#0B1120] sm:text-[20px]">
-                  Identity confirmed in seconds.
+                  Nothing opens without your PIN.
                 </p>
                 <p className="mt-2 text-[12.5px] leading-relaxed text-slate-500">
-                  A scan identifies you. Viewing your records still needs your approval.
+                  A scan starts a session on the doctor&apos;s phone. You approve it with your PIN on yours.
                 </p>
               </div>
             </div>
@@ -300,6 +301,22 @@ const HealthCardSection = () => {
               </motion.div>
             ))}
           </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="mt-9"
+          >
+            <Link
+              href="/roles/patients/health-card"
+              className="group font-manrope inline-flex items-center gap-2 rounded-2xl bg-[#0B1120] px-6 py-3.5 text-[15px] font-bold text-white shadow-[0_14px_30px_-12px_rgba(11,17,32,0.6)] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+            >
+              Explore the Health Card
+              <ArrowUpRight size={17} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </Link>
+          </motion.div>
 
           <AccessLog />
         </div>

@@ -27,7 +27,11 @@ import {
   Lock,
   Eye,
   UserCheck,
-  ShieldOff,
+  Fingerprint,
+  Timer,
+  Hash,
+  LockOpen,
+  Building2,
   MessageSquare,
   Paperclip,
   BellRing,
@@ -87,12 +91,29 @@ export interface FeatureWalkthrough {
   title: string;
   subtitle: string;
   steps: WalkthroughStep[];
+  /** "dark" presents the phones on the site navy with an emerald glow. */
+  tone?: "light" | "dark";
 }
 
 export interface HeroChip {
   icon: LucideIcon;
   title: string;
   detail?: string;
+}
+
+export interface DuoSide {
+  role: string;
+  caption: string;
+  screen: FeatureScreen;
+}
+
+/** Two phones side by side, for flows where both parties act. */
+export interface FeatureDuo {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  left: DuoSide;
+  right: DuoSide;
 }
 
 export interface PatientFeature {
@@ -107,8 +128,11 @@ export interface PatientFeature {
   heroScreen?: FeatureScreen;
   /** Background colour baked into this feature's screenshots, so frames blend with them. */
   screenBackdrop?: string;
+  /** CSS aspect-ratio of this feature's screenshot crops, when they differ from the default export. */
+  screenAspect?: string;
   /** Floating callouts beside the hero screen: a light one bottom-left, a dark one top-right. */
   heroChips?: { light: HeroChip; dark: HeroChip };
+  duo?: FeatureDuo;
   stats: FeatureStat[];
   capabilities: FeatureCapability[];
   /** Real app screens shown in "How it works"; takes the place of `steps`. */
@@ -699,193 +723,344 @@ export const patientFeatures: PatientFeature[] = [
     tag: "HEALTH CARD",
     icon: BadgeCheck,
     accent: "#10B981",
-    heroHeadline: "One card. Every facility. Always with you.",
+    heroHeadline: "Your health identity, on your phone.",
     heroSubhead:
-      "Your digital health identity — a unique card number and QR code that any DigCare-connected facility can scan to pull up exactly what you've approved them to see.",
+      "A Smart Health Card with its own number and QR code, under the Smart Card tab. Doctors scan it at a visit — and nothing is shared until you enter your PIN.",
+    heroScreen: {
+      src: "/assets/healthcard/frames/01-my-health-card.png",
+      alt: "Health Card screen showing Adwoa Asamoah's Smart Health Card, number SMART-K7QH-3VPA, active, expiring March 5, 2027, with a QR code below",
+    },
+    screenBackdrop: "#040415",
+    screenAspect: "920 / 1860",
+    heroChips: {
+      light: { icon: Check, title: "PIN verified", detail: "Scan approved · 09:32 AM" },
+      dark: { icon: QrCode, title: "SMART-K7QH-3VPA" },
+    },
     stats: [
-      { label: "Format", value: "Digital, QR-based" },
-      { label: "Accepted at", value: "Every linked facility" },
-      { label: "Logged on scan", value: "Every access event" },
+      { label: "Card number", value: "SMART-XXXX-XXXX" },
+      { label: "Card PIN", value: "6–8 digits" },
+      { label: "Every scan", value: "Logged with time & IP" },
     ],
     capabilities: [
       {
+        icon: CreditCard,
+        title: "One card, one number",
+        description:
+          "Your Smart Health Card shows your name, card number, status and expiry — with your QR code on a white tile right below it.",
+      },
+      {
         icon: QrCode,
-        title: "Scan-to-identify",
+        title: "Doctors scan your QR",
         description:
-          "A unique QR code identifies you instantly at reception, pharmacy, or lab — no forms, no repeating your history out loud.",
+          "At a visit, the doctor scans the code with the DigCare app. You get a notification on your own phone straight away.",
       },
       {
-        icon: Smartphone,
-        title: "Always on your phone",
+        icon: Lock,
+        title: "Your PIN is the approval",
         description:
-          "No physical card to forget or lose — your Health Card lives in the app and works offline once loaded.",
-      },
-      {
-        icon: BadgeCheck,
-        title: "Card type & validity",
-        description:
-          "See your card type (Adult, Student, Visitor), issue date, and expiry at a glance.",
+          "Nothing is shared until you enter your 6–8 digit card PIN. Tap Deny Access instead, and the session ends.",
       },
       {
         icon: History,
-        title: "Full scan history",
+        title: "Every scan, logged",
         description:
-          "Every time your card is scanned, it's logged with the facility, time, and purpose — visible to you under Access Control.",
+          "Scan History lists each scan — successful or failed — with the time, the scanning device's IP address, and the reason a scan failed.",
       },
       {
-        icon: Lock,
-        title: "Consent-gated by design",
+        icon: Calendar,
+        title: "Expiry at a glance",
         description:
-          "A scan identifies you — it does not automatically unlock your full record. Deeper access still requires your approval.",
+          "See your card type (Smart, NHIS or Hybrid), its status, and how many days remain before it expires.",
+      },
+      {
+        icon: Building2,
+        title: "Facility cards too",
+        description:
+          "A clinic's front desk can issue you a clinic-specific card with its own number and QR. Yours are listed under Facility Cards.",
       },
     ],
-    steps: [
-      {
-        number: 1,
-        title: "Card issued on sign-up",
-        description:
-          "Your Health Card is generated automatically the moment your DigCare profile is verified.",
+    walkthrough: {
+      title: "From your card to the doctor's screen.",
+      subtitle:
+        "This is the real in-person flow in the DigCare app — what you see on your phone, and what the doctor sees on theirs.",
+      tone: "dark",
+      steps: [
+        {
+          label: "Your card",
+          title: "Your health identity, on your phone.",
+          description:
+            "One card number and QR code, ready at any visit. Open the Smart Card tab and show the QR to your doctor.",
+          screen: {
+            src: "/assets/healthcard/frames/01-my-health-card.png",
+            alt: "Health Card screen with the Smart Health Card and QR code",
+          },
+        },
+        {
+          label: "The scan",
+          title: "The doctor scans, then waits.",
+          description:
+            "The doctor's app reads your QR and starts a scan session. Nothing is shared yet — their screen waits for you.",
+          screen: {
+            src: "/assets/healthcard/frames/07-doctor-scan-waiting.png",
+            alt: "Doctor's Scan Health Card screen showing 'Waiting for patient to enter PIN'",
+          },
+        },
+        {
+          label: "Your PIN",
+          title: "Nothing opens without your PIN.",
+          description:
+            "A notification brings you to this screen. Enter your card PIN to approve the scan — or tap Deny Access to end it.",
+          screen: {
+            src: "/assets/healthcard/frames/02-verify-identity-pin.png",
+            alt: "Verify Identity screen asking the patient to enter their PIN, with Verify PIN and Deny Access buttons",
+          },
+        },
+        {
+          label: "The log",
+          title: "Every scan of your card, logged.",
+          description:
+            "Successful or not, each scan is recorded with the time and the device's IP address — including failed PIN attempts.",
+          screen: {
+            src: "/assets/healthcard/frames/06-scan-history.png",
+            alt: "Scan History screen listing successful and failed scans with times and IP addresses",
+          },
+        },
+      ],
+    },
+    duo: {
+      eyebrow: "Two phones, one handshake",
+      title: "The doctor scans. You approve.",
+      subtitle:
+        "A scan session only opens once the PIN is entered on your phone. Until then, the doctor's screen simply waits.",
+      left: {
+        role: "Doctor's phone",
+        caption: "Waiting for patient to enter PIN…",
+        screen: {
+          src: "/assets/healthcard/frames/07-doctor-scan-waiting.png",
+          alt: "Doctor's scanner screen waiting for the patient's PIN",
+        },
       },
-      {
-        number: 2,
-        title: "Open it at any visit",
-        description:
-          "Pull up your QR code from the Health Card tab when you arrive at a facility, lab, or pharmacy.",
+      right: {
+        role: "Your phone",
+        caption: "Enter your PIN to approve — or deny.",
+        screen: {
+          src: "/assets/healthcard/frames/02-verify-identity-pin.png",
+          alt: "Patient's Verify Identity screen with the PIN field",
+        },
       },
-      {
-        number: 3,
-        title: "Staff scan to identify you",
-        description:
-          "Reception or pharmacy staff scan the code to confirm your identity and pull up your active visit.",
-      },
-      {
-        number: 4,
-        title: "Access event is logged",
-        description:
-          "The scan is recorded immediately to your access history — you can review it any time.",
-      },
-    ],
+    },
     goodToKnow: [
       {
         icon: Lock,
-        text: "A scan alone cannot expose your full medical history — sensitive record access still routes through the Access Control approval flow.",
+        text: "Once you enter your PIN, the doctor can see your profile, allergies, conditions, emergency contacts, appointments, prescriptions, lab results and insurance for that session.",
       },
       {
-        icon: ShieldAlert,
-        text: "If you ever suspect your card has been misused, you can flag an access event directly from your scan history.",
+        icon: AlertTriangle,
+        text: "Facility cards work differently: scanning a clinic-issued facility card opens a session without asking for your PIN.",
+      },
+      {
+        icon: Smartphone,
+        text: "Your QR code is loaded from DigCare's servers each time you open the card, so you'll need a connection to show it.",
+      },
+      {
+        icon: KeyRound,
+        text: "Your card PIN is 6–8 digits and is asked for every time your card is scanned. Change it any time under Manage Card PIN.",
       },
     ],
     faqs: [
       {
+        q: "What if I haven't set a PIN yet?",
+        a: "Your Health Card screen shows a 'Secure Your Health Card' alert until you do. Tap Set PIN Now and choose 6–8 digits — from then on it's required for every scan.",
+      },
+      {
+        q: "Does the PIN screen tell me who is scanning?",
+        a: "No. The Verify Identity screen asks for your PIN without naming the doctor or facility. If you're not expecting a scan, tap Deny Access.",
+      },
+      {
+        q: "What does Scan History show?",
+        a: "Each scan's result (successful or failed), the date and time, the IP address of the device that scanned, and — for failed scans — the reason, such as an incorrect PIN. It doesn't show the doctor's name.",
+      },
+      {
         q: "What if I lose my phone?",
-        a: "Your Health Card is tied to your account, not your device — sign in on a new phone and it regenerates instantly. You can also deactivate the old session remotely.",
+        a: "Your Health Card is tied to your account, not your device — sign in on a new phone and it's there. Your PIN still protects every scan.",
       },
       {
-        q: "Do I need internet access to show my card?",
-        a: "Once loaded, your QR code is cached locally and can be displayed without an active connection — only the scan verification requires the facility to be online.",
-      },
-      {
-        q: "Can my card type change?",
-        a: "Yes — for example, a Student card converts to an Adult card automatically once your enrolment status changes, or on request to support.",
+        q: "What's a facility card?",
+        a: "A clinic-specific card a clinic's front desk can issue to you, with its own number and QR code. Doctors at that clinic can scan it to open a session without a PIN step. Yours are listed under Facility Cards in the app.",
       },
     ],
-    related: ["access-control", "appointments", "insurance"],
+    related: ["access-control", "appointments", "profile"],
   },
 
   {
     slug: "access-control",
     title: "Access Control",
     tag: "ACCESS CONTROL",
-    icon: Lock,
+    icon: Fingerprint,
     accent: "#10B981",
-    heroHeadline: "Your data. Your rules. No exceptions.",
+    heroHeadline: "Remote requests come to you first.",
     heroSubhead:
-      "Every provider who requests or accesses your records shows up here. You approve, deny, or revoke access — and nothing happens behind your back.",
+      "Doctors can ask to see your records without a visit. You see who's asking, why and for how long — then approve or deny with your PIN, and revoke whenever you like.",
+    heroScreen: {
+      src: "/assets/healthcard/frames/03-access-request-patient.png",
+      alt: "Access Request screen showing a pending request from Dr. Kwame Mensah, Internal Medicine, for 2 days, with Approve Access and Deny Request buttons",
+    },
+    screenBackdrop: "#040415",
+    screenAspect: "920 / 1860",
+    heroChips: {
+      light: { icon: Check, title: "Access granted", detail: "Dr. Kwame Mensah · 2 days" },
+      dark: { icon: KeyRound, title: "One-time code required" },
+    },
     stats: [
-      { label: "Default access", value: "None, until you approve" },
-      { label: "Revocation", value: "Instant, any time" },
-      { label: "Audit trail", value: "Every event, timestamped" },
+      { label: "Access window", value: "1 hour to 7 days" },
+      { label: "To approve", value: "Your PIN + a one-time code" },
+      { label: "To revoke", value: "One tap, any time" },
     ],
     capabilities: [
       {
         icon: UserCheck,
-        title: "Approve or deny requests",
+        title: "See who's asking, and why",
         description:
-          "When a new doctor or facility requests access to your record, you get a clear request with their identity and reason — you decide.",
+          "Each request shows the doctor's name, specialty and licence number, the reason they gave, and how long they're asking for.",
       },
       {
-        icon: Eye,
-        title: "See who's looked, and when",
+        icon: Timer,
+        title: "A set time, never open-ended",
         description:
-          "A full audit log shows every provider who has viewed your record, what they viewed, and the exact timestamp.",
-      },
-      {
-        icon: ShieldOff,
-        title: "Revoke access instantly",
-        description:
-          "Changed your mind, or finished treatment with a provider? Revoke their access immediately — no waiting period.",
-      },
-      {
-        icon: Clock3,
-        title: "Time-limited grants",
-        description:
-          "Grant access for a single visit, a set period, or indefinitely — you choose the scope every time.",
+          "Doctors ask for between 1 and 168 hours — up to 7 days. There's no indefinite access.",
       },
       {
         icon: KeyRound,
-        title: "Sensitive-action verification",
+        title: "PIN to approve, PIN to deny",
         description:
-          "Particularly sensitive approvals (like full history access) require an additional PIN or OTP step from you.",
+          "Every response needs your card PIN, whether you're approving the request or turning it down.",
+      },
+      {
+        icon: Hash,
+        title: "A one-time code finishes it",
+        description:
+          "Approval alone isn't access. You're shown a one-time code (OTP) to share with the doctor, and they must enter it before anything opens.",
+      },
+      {
+        icon: LockOpen,
+        title: "Revoke in one tap",
+        description:
+          "Active access shows the time left. Tap Revoke Access and the doctor's view ends immediately — no PIN needed.",
+      },
+      {
+        icon: Eye,
+        title: "See how often they looked",
+        description:
+          "While access is active, the request shows how many times and when the doctor last viewed your records.",
       },
     ],
-    steps: [
-      {
-        number: 1,
-        title: "A provider requests access",
-        description:
-          "A doctor or facility outside your existing care circle requests access to some or all of your record.",
+    walkthrough: {
+      title: "A remote request, from first ask to revoke.",
+      subtitle: "The real remote-access flow in the DigCare app, shown on both phones.",
+      tone: "dark",
+      steps: [
+        {
+          label: "Request",
+          title: "Remote requests come to you first.",
+          description:
+            "A doctor sends a request with a reason and a time limit. You see who's asking, why and for how long — then approve or deny with your PIN.",
+          screen: {
+            src: "/assets/healthcard/frames/03-access-request-patient.png",
+            alt: "Pending access request from Dr. Kwame Mensah with Approve Access and Deny Request buttons",
+          },
+        },
+        {
+          label: "One-time code",
+          title: "The doctor still needs your one-time code.",
+          description:
+            "Approval alone isn't access. You're shown a one-time code to share with the doctor, and they must enter it to finish the handshake.",
+          screen: {
+            src: "/assets/healthcard/frames/04-otp-required-doctor.png",
+            alt: "Doctor's Access Request screen marked 'Approved - Awaiting OTP' with a Verify OTP button",
+          },
+        },
+        {
+          label: "What they see",
+          title: "What the doctor sees, once you approve.",
+          description:
+            "Card details, profile, allergies and conditions — plus appointments, prescriptions and lab results — for the approved time only.",
+          screen: {
+            src: "/assets/healthcard/frames/08-doctor-patient-health-data.png",
+            alt: "Doctor's Patient Health Data screen with 'Remote Access Granted', card information and patient profile",
+          },
+        },
+        {
+          label: "Revoke",
+          title: "Revoke whenever you like.",
+          description:
+            "Granted access shows the time left. One tap on Revoke Access ends it early — no PIN needed.",
+          screen: {
+            src: "/assets/healthcard/frames/05-active-access-revoke.png",
+            alt: "Access Request screen marked 'Access Granted' showing 31.5 hours left and an Active Access notice",
+          },
+        },
+      ],
+    },
+    duo: {
+      eyebrow: "Two phones, one handshake",
+      title: "You approve. They still need the code.",
+      subtitle:
+        "Your approval generates a one-time code. Until the doctor enters it on their phone, nothing is shared.",
+      left: {
+        role: "Your phone",
+        caption: "Approve or deny — with your PIN.",
+        screen: {
+          src: "/assets/healthcard/frames/03-access-request-patient.png",
+          alt: "Patient's pending access request with Approve and Deny buttons",
+        },
       },
-      {
-        number: 2,
-        title: "You review the request",
-        description:
-          "See who's asking, which facility they're from, and what exactly they're requesting access to.",
+      right: {
+        role: "Doctor's phone",
+        caption: "OTP required — until then, no access.",
+        screen: {
+          src: "/assets/healthcard/frames/04-otp-required-doctor.png",
+          alt: "Doctor's screen asking for the OTP",
+        },
       },
-      {
-        number: 3,
-        title: "Approve, deny, or scope it",
-        description:
-          "Grant full access, limit it to a specific visit or record type, or deny the request outright.",
-      },
-      {
-        number: 4,
-        title: "Monitor and revoke any time",
-        description:
-          "Access stays visible on your Access Control tab for as long as it's active — revoke it whenever you want.",
-      },
-    ],
+    },
     goodToKnow: [
       {
-        icon: ShieldAlert,
-        text: "Emergency access (e.g. unconscious patient in an ER) follows a separate, heavily logged break-glass protocol that notifies you the moment you're reachable.",
+        icon: Timer,
+        text: "The doctor chooses the duration (1–168 hours). You can approve or deny it, but not change it.",
       },
       {
-        icon: CheckCircle2,
-        text: "Your existing care team (doctors actively treating you) don't need repeated approval for routine follow-ups within an active treatment window.",
+        icon: KeyRound,
+        text: "The one-time code is shown to you once, when you approve. Share it with the doctor directly.",
+      },
+      {
+        icon: Clock3,
+        text: "Time left is shown as a figure — for example '31.5 hours' — and refreshes when you reopen the request. It isn't a live countdown.",
+      },
+      {
+        icon: ShieldCheck,
+        text: "Your records are handled under Ghana's Data Protection Act, 2012 (Act 843).",
       },
     ],
     faqs: [
       {
-        q: "Can a facility see my records just because I walked in?",
-        a: "No. Walking into a facility or having your Health Card scanned only confirms your identity — viewing your actual medical record still requires your explicit approval.",
+        q: "Can a doctor see my records just because they have my card number?",
+        a: "No. A request only becomes access after you approve it with your PIN and the doctor enters the one-time code you share with them.",
+      },
+      {
+        q: "Can I choose which records a doctor sees?",
+        a: "Not at the moment. Access is all-or-nothing for the approved time: profile, allergies, conditions, emergency contacts, appointments, prescriptions, lab results and insurance.",
       },
       {
         q: "What happens if I deny a request?",
-        a: "The requesting provider is notified that access was denied. They can still treat you based on what you tell them directly, just without your historical record.",
+        a: "You enter your PIN to confirm, and the doctor is told the request was denied. Nothing is shared.",
       },
       {
-        q: "Can I see exactly what a doctor viewed?",
-        a: "Yes — the audit log breaks down not just that they accessed your record, but which sections (e.g. lab results vs. prescriptions) they opened.",
+        q: "What happens when the time runs out?",
+        a: "Access ends on its own at the end of the approved window, and the request stays in your list marked Expired.",
+      },
+      {
+        q: "Does revoking need my PIN?",
+        a: "No. Approving and denying need your PIN; revoking is a confirmation tap, and it takes effect immediately.",
       },
     ],
     related: ["health-card", "lab-orders", "profile"],

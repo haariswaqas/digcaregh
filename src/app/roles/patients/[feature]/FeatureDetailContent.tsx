@@ -6,6 +6,7 @@ import { ArrowLeft, Sparkles } from "lucide-react";
 import FeatureCard from "@/components/roles/FeatureCard";
 import StepFlow from "@/components/roles/StepFlow";
 import FeatureWalkthrough from "@/components/roles/FeatureWalkthrough";
+import FeatureDuo from "@/components/roles/FeatureDuo";
 import AppScreen, { SCREEN_BACKDROP } from "@/components/roles/AppScreen";
 import FaqAccordion from "@/components/roles/FaqAccordion";
 import RelatedFeatureLinks from "@/components/roles/RelatedFeatureLinks";
@@ -23,6 +24,7 @@ export default function FeatureDetailContent({ slug }: FeatureDetailContentProps
 
   const Icon = feature.icon;
   const accent = feature.accent;
+  const darkWalkthrough = feature.walkthrough?.tone === "dark";
 
   const relatedFeatures = feature.related
     .map((relatedSlug) => getFeatureBySlug(relatedSlug))
@@ -122,6 +124,7 @@ export default function FeatureDetailContent({ slug }: FeatureDetailContentProps
                     <AppScreen
                       src={feature.heroScreen.src}
                       alt={feature.heroScreen.alt}
+                      aspect={feature.screenAspect}
                       sizes="(min-width: 768px) 280px, 230px"
                       priority
                     />
@@ -242,8 +245,16 @@ export default function FeatureDetailContent({ slug }: FeatureDetailContentProps
       </section>
 
       {/* ─── How it works ─── */}
-      <section className="py-20 bg-white">
-        <div className="max-w-[1200px] mx-auto px-6">
+      <section
+        className={`relative overflow-hidden py-20 ${darkWalkthrough ? "bg-[#040415]" : "bg-white"}`}
+      >
+        {darkWalkthrough && (
+          <div className="pointer-events-none absolute inset-0">
+            <div className="bg-dot-grid-dark absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,#000_20%,transparent_70%)]" />
+            <div className="absolute right-[-10%] top-[10%] h-[520px] w-[520px] rounded-full opacity-20 blur-[150px]" style={{ background: accent }} />
+          </div>
+        )}
+        <div className="relative max-w-[1200px] mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -257,14 +268,14 @@ export default function FeatureDetailContent({ slug }: FeatureDetailContentProps
               HOW IT WORKS
             </p>
             <h2
-              className="text-3xl md:text-[36px] font-bold text-[#1a2b3c] leading-tight"
+              className={`text-3xl md:text-[36px] font-bold leading-tight ${darkWalkthrough ? "text-white" : "text-[#1a2b3c]"}`}
               style={{ fontFamily: "'Space Grotesk', sans-serif", letterSpacing: "-0.5px" }}
             >
               {feature.walkthrough?.title ?? "From start to finish."}
             </h2>
             {feature.walkthrough && (
               <p
-                className="mt-4 text-[16px] leading-[1.7] text-gray-500"
+                className={`mt-4 text-[16px] leading-[1.7] ${darkWalkthrough ? "text-slate-400" : "text-gray-500"}`}
                 style={{ fontFamily: "Manrope, sans-serif" }}
               >
                 {feature.walkthrough.subtitle}
@@ -278,13 +289,54 @@ export default function FeatureDetailContent({ slug }: FeatureDetailContentProps
             viewport={{ once: true }}
           >
             {feature.walkthrough ? (
-              <FeatureWalkthrough steps={feature.walkthrough.steps} accent={accent} backdrop={feature.screenBackdrop} />
+              <FeatureWalkthrough
+                steps={feature.walkthrough.steps}
+                accent={accent}
+                backdrop={feature.screenBackdrop}
+                aspect={feature.screenAspect}
+                tone={feature.walkthrough.tone}
+              />
             ) : (
               feature.steps && <StepFlow steps={feature.steps} accentColor={accent} />
             )}
           </motion.div>
         </div>
       </section>
+
+      {/* ─── Two-sided flow ─── */}
+      {feature.duo && (
+        <section className="py-20 bg-white">
+          <div className="max-w-[1200px] mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mb-14 max-w-[640px]"
+            >
+              <p
+                className="text-[11px] font-extrabold tracking-[2px] uppercase mb-3"
+                style={{ color: accent, fontFamily: "Manrope, sans-serif" }}
+              >
+                {feature.duo.eyebrow}
+              </p>
+              <h2
+                className="text-3xl md:text-[36px] font-bold text-[#1a2b3c] leading-tight"
+                style={{ fontFamily: "'Space Grotesk', sans-serif", letterSpacing: "-0.5px" }}
+              >
+                {feature.duo.title}
+              </h2>
+              <p
+                className="mt-4 text-[16px] leading-[1.7] text-gray-500"
+                style={{ fontFamily: "Manrope, sans-serif" }}
+              >
+                {feature.duo.subtitle}
+              </p>
+            </motion.div>
+
+            <FeatureDuo left={feature.duo.left} right={feature.duo.right} accent={accent} aspect={feature.screenAspect} />
+          </div>
+        </section>
+      )}
 
       {/* ─── Good to know ─── */}
       <section

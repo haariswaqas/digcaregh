@@ -2,6 +2,9 @@
 
 const API_BASE = process.env.API ?? process.env.NEXT_PUBLIC_API;
 
+// A hung blog API must never stall the pages that list posts.
+const REQUEST_TIMEOUT_MS = 6000;
+
 /* -------------------------------------------------------------------------- */
 /*                                    Types                                   */
 /* -------------------------------------------------------------------------- */
@@ -81,6 +84,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     try {
         res = await fetch(`${API_BASE}${path}`, {
             ...init,
+            signal: init?.signal ?? AbortSignal.timeout(REQUEST_TIMEOUT_MS),
             headers: {
                 Accept: "application/json",
                 ...(init?.headers ?? {}),
