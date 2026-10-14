@@ -1,210 +1,333 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { ChevronLeft, X, Mic, MessageSquare, Phone } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import {
+  AnimatePresence,
+  motion,
+  useInView,
+  useMotionValue,
+  useReducedMotion,
+  type MotionValue,
+} from "framer-motion";
+import {
+  ArrowUpRight,
+  CalendarCheck,
+  CheckCircle2,
+  Clock,
+  Lock,
+  MessageSquare,
+  Pill,
+  ShieldCheck,
+  Video,
+  type LucideIcon,
+} from "lucide-react";
+import SectionHeading from "@/components/landing/SectionHeading";
 
-interface FeatureImageProps {
-  images: string[];
-  alt: string;
+interface Feature {
+  key: string;
+  icon: LucideIcon;
+  label: string;
+  title: string;
+  desc: string;
+  points: string[];
+  img: string;
+  imgAlt: string;
+  accent: string;
+  tint: string;
+  chip: { icon: LucideIcon; text: string };
+  stat: { label: string; value: string };
+  href: string;
 }
 
-const FeatureImage = ({ images, alt }: FeatureImageProps) => {
-  const [hovered, setHovered] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  useEffect(() => {
-    if (!hovered) {
-      setActiveIndex(0);
-      return;
-    }
-
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % images.length);
-    }, 1400);
-
-    return () => clearInterval(interval);
-  }, [hovered, images.length]);
-
-  return (
-    <div
-      className="relative w-full h-full"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {images.map((src, index) => (
-        <img
-          key={src}
-          src={src}
-          alt={alt}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${index === activeIndex ? "opacity-100" : "opacity-0"
-            }`}
-        />
-      ))}
-    </div>
-  );
-};
-
-const features = [
+const FEATURES: Feature[] = [
   {
-    title: "Appointment Booking",
-    description: "Book an appointment with a doctor on your phone",
-    images: [
-      "/assets/BookAppointmentComp1.png",
-      "/assets/BookAppointmentComp2.png",
-      "/assets/BookAppointmentComp3.png",
-      "/assets/BookAppointmentComp4.png",
-      "/assets/BookAppointmentComp5.png",
-      "/assets/BookAppointmentComp6.png",
-
-
-
-    ],
+    key: "appointments",
+    icon: CalendarCheck,
+    label: "Appointments",
+    title: "Book a doctor in under a minute.",
+    desc: "Search clinics near you, pick a slot, choose in-person or teleconsult — and confirm in seconds. No call centres, no waiting rooms.",
+    points: ["Live availability across facilities", "In-person or video, your choice", "Reminders before every visit"],
+    img: "/assets/BookAppointmentComp1.png",
+    imgAlt: "DigCare appointment booking screen showing consultation types",
+    accent: "#10B981",
+    tint: "#ECFDF5",
+    chip: { icon: CheckCircle2, text: "NHIS covered" },
+    stat: { label: "General consultation", value: "30 mins" },
+    href: "/roles/patients/appointments",
   },
   {
-    title: "Video Consultation",
-    description: "Online Consultation at the comfort of your home",
-    images: [
-      "/assets/VideoConsultationComp1.png",
-      "/assets/VideoConsultationComp2.png",
-      "/assets/VideoConsultationComp3.png",
-      "/assets/VideoConsultationComp4.png",
-
-    ],
+    key: "video",
+    icon: Video,
+    label: "Video consultations",
+    title: "See your doctor from anywhere.",
+    desc: "Encrypted video calls with your doctor. Get a diagnosis, receive a prescription and order lab tests — without leaving home.",
+    points: ["End-to-end encrypted calls", "Prescriptions issued during the call", "Lab orders sent straight to the lab"],
+    img: "/assets/VideoConsultationComp4.png",
+    imgAlt: "DigCare video consultation in progress",
+    accent: "#0EA5E9",
+    tint: "#F0F9FF",
+    chip: { icon: Lock, text: "Encrypted · Connected" },
+    stat: { label: "Wait time", value: "No waiting room" },
+    href: "/roles/patients/appointments",
   },
   {
-    title: "Prescription & Pharmacy",
-    description: "Order prescriptions & refills from your local pharmacy",
-    images: [
-      "/assets/Prescription&PharmacyComp1.png",
-      "/assets/Prescription&PharmacyComp2.png",
-      "/assets/Prescription&PharmacyComp3.png",
-    ],
+    key: "prescriptions",
+    icon: Pill,
+    label: "Prescriptions & pharmacy",
+    title: "Digital prescriptions, instantly.",
+    desc: "Doctors issue prescriptions directly to your DigCare account. Your pharmacy sees them immediately — no paper, no room for errors.",
+    points: ["Dosage and instructions always on hand", "Track dispensed vs. pending", "Request refills in a tap"],
+    img: "/assets/Prescription&PharmacyComp1.png",
+    imgAlt: "DigCare prescriptions screen",
+    accent: "#F59E0B",
+    tint: "#FFFBEB",
+    chip: { icon: CheckCircle2, text: "Ready for pickup" },
+    stat: { label: "Paper needed", value: "None" },
+    href: "/roles/patients/prescriptions",
   },
   {
-    title: "Insurance & Claims",
-    description: "Pay for health services with your phone",
-    images: [
-      "/assets/Insurance_Claims_Comp1.png",
-      "/assets/Insurance_Claims_Comp2.png",
-      "/assets/Insurance_Claims_Comp3.png",
-    ],
+    key: "insurance",
+    icon: ShieldCheck,
+    label: "Insurance claims",
+    title: "Insurance that actually works.",
+    desc: "DigCare submits claims to your insurer automatically when you visit an accredited facility, with real-time status updates and no paperwork.",
+    points: ["Claims filed for you at accredited facilities", "Coverage applied to every bill", "Know your expiry date at a glance"],
+    img: "/assets/Insurance_Claims_Comp1.png",
+    imgAlt: "DigCare insurance claims screen",
+    accent: "#6366F1",
+    tint: "#EEF2FF",
+    chip: { icon: ShieldCheck, text: "Claim approved" },
+    stat: { label: "Paperwork", value: "Zero forms" },
+    href: "/roles/patients/insurance",
   },
   {
-    title: "Digcare Health Card",
-    description: "Easily see all your health records in one digital card",
-    images: [
-      "/assets/DigcareHealthCardComp1.png",
-      "/assets/DigcareHealthCardComp2.png",
-      "/assets/DigcareHealthCardComp3.png",
-    ],
+    key: "messaging",
+    icon: MessageSquare,
+    label: "Secure messaging",
+    title: "Always connected to your care team.",
+    desc: "Message your doctor, follow up on results and request refills — privately, inside DigCare.",
+    points: ["Private threads with each provider", "Share photos and documents", "Every conversation kept with your record"],
+    img: "/assets/InAppMessagingComp1.png",
+    imgAlt: "DigCare secure messaging with a doctor",
+    accent: "#14B8A6",
+    tint: "#F0FDFA",
+    chip: { icon: Lock, text: "Private & secure" },
+    stat: { label: "Doctor status", value: "Online" },
+    href: "/roles/patients/messaging",
   },
 ];
 
-const FeaturesSection = () => {
+const DURATION_MS = 6500;
+
+function useAutoAdvance(count: number, inView: boolean) {
+  const [active, setActive] = useState(0);
+  const progress = useMotionValue(0);
+  const pausedRef = useRef(false);
+  const reduce = useReducedMotion();
+
+  useEffect(() => {
+    if (reduce || !inView) return;
+    let raf = 0;
+    let last = performance.now();
+    const tick = (t: number) => {
+      const dt = t - last;
+      last = t;
+      if (!pausedRef.current) {
+        const next = progress.get() + dt / DURATION_MS;
+        if (next >= 1) {
+          progress.set(0);
+          setActive((a) => (a + 1) % count);
+        } else {
+          progress.set(next);
+        }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [count, inView, progress, reduce]);
+
+  const select = (i: number) => {
+    progress.set(0);
+    setActive(i);
+  };
+  const pause = () => {
+    pausedRef.current = true;
+  };
+  const resume = () => {
+    pausedRef.current = false;
+  };
+
+  return { active, select, progress, pause, resume };
+}
+
+function TabProgress({ progress, color }: { progress: MotionValue<number>; color: string }) {
   return (
-    <section id="features" className="py-24 bg-[#f4f7f8]">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Header */}
-        <div className="text-center mb-16 flex flex-col items-center">
-          <div className="inline-block border border-gray-300 rounded-full px-5 py-1.5 text-xs font-bold text-gray-500 mb-6 bg-transparent tracking-widest uppercase">
-            OUR APP
+    <span className="absolute inset-x-0 bottom-0 h-[3px] overflow-hidden rounded-full bg-slate-100">
+      <motion.span className="block h-full origin-left" style={{ scaleX: progress, background: color }} />
+    </span>
+  );
+}
+
+export default function FeaturesSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { margin: "-20% 0px" });
+  const { active, select, progress, pause, resume } = useAutoAdvance(FEATURES.length, inView);
+  const feature = FEATURES[active];
+
+  return (
+    <section id="features" className="relative overflow-hidden bg-white py-24 md:py-32">
+      <div className="pointer-events-none absolute right-[-10%] top-[10%] h-[500px] w-[500px] rounded-full bg-emerald-100/60 blur-[130px]" />
+
+      <div className="relative mx-auto max-w-[1200px] px-6">
+        <SectionHeading
+          eyebrow="The DigCare app"
+          title={
+            <>
+              Everything healthcare. <span className="text-gradient-brand">One app.</span>
+            </>
+          }
+          subtitle="From booking a doctor to managing prescriptions and insurance — your entire healthcare journey in a single, beautifully simple experience."
+        />
+
+        <div
+          ref={ref}
+          onMouseEnter={pause}
+          onMouseLeave={resume}
+          className="mt-16 grid items-center gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-16"
+        >
+          {/* Tabs */}
+          <div role="tablist" aria-label="DigCare features" className="order-2 flex flex-col gap-2 lg:order-1">
+            {FEATURES.map((f, i) => {
+              const isActive = i === active;
+              const Icon = f.icon;
+              return (
+                <div
+                  key={f.key}
+                  className={`relative overflow-hidden rounded-2xl border transition-all duration-300 ${
+                    isActive
+                      ? "border-slate-200 bg-white shadow-[0_18px_40px_-20px_rgba(15,23,42,0.25)]"
+                      : "border-transparent hover:bg-slate-50"
+                  }`}
+                >
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    aria-controls="feature-panel"
+                    onClick={() => select(i)}
+                    className="flex w-full items-center gap-4 px-5 py-4 text-left"
+                  >
+                    <span
+                      className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl transition-colors duration-300"
+                      style={{
+                        background: isActive ? f.accent : `${f.accent}14`,
+                        color: isActive ? "#fff" : f.accent,
+                      }}
+                    >
+                      <Icon size={20} />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="font-manrope block text-[11px] font-bold uppercase tracking-[1.5px]" style={{ color: f.accent }}>
+                        {f.label}
+                      </span>
+                      <span className="font-display block text-[18px] font-bold leading-snug text-[#0B1120]">{f.title}</span>
+                    </span>
+                  </button>
+
+                  <AnimatePresence initial={false}>
+                    {isActive && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-5 pb-6 pl-[84px]">
+                          <p className="font-manrope text-[15px] leading-[1.7] text-slate-600">{f.desc}</p>
+                          <ul className="mt-4 space-y-2">
+                            {f.points.map((p) => (
+                              <li key={p} className="font-manrope flex items-center gap-2.5 text-[14px] font-medium text-slate-700">
+                                <CheckCircle2 size={16} style={{ color: f.accent }} className="flex-shrink-0" />
+                                {p}
+                              </li>
+                            ))}
+                          </ul>
+                          <Link
+                            href={f.href}
+                            className="font-manrope group mt-5 inline-flex items-center gap-1.5 text-[14px] font-bold"
+                            style={{ color: f.accent }}
+                          >
+                            Learn more
+                            <ArrowUpRight size={16} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                          </Link>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {isActive && <TabProgress progress={progress} color={f.accent} />}
+                </div>
+              );
+            })}
           </div>
-          <h2 className="text-4xl md:text-5xl font-heading font-bold text-[#1b3a4b] leading-tight">
-            Everything You Need for Your Health, <br />
-            in <span className="text-[#0d9488]">One App</span>
-          </h2>
-        </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
-
-          {/* Card 1: Appointment Booking */}
-          <div className="flex flex-col">
-            <div className="bg-white rounded-sm mb-4 h-[420px] overflow-hidden shadow-sm">
-              <FeatureImage images={features[0].images} alt={features[0].title} />
-            </div>
-            <h3 className="text-lg font-bold text-[#1b3a4b] mb-1">{features[0].title}</h3>
-            <p className="text-[13px] text-gray-500">{features[0].description}</p>
-          </div>
-
-          {/* Card 2: Video Consultation */}
-          <div className="flex flex-col">
-            <div className="bg-white rounded-sm mb-4 h-[420px] overflow-hidden shadow-sm">
-              <FeatureImage images={features[1].images} alt={features[1].title} />
-            </div>
-            <h3 className="text-lg font-bold text-[#1b3a4b] mb-1">{features[1].title}</h3>
-            <p className="text-[13px] text-gray-500">{features[1].description}</p>
-          </div>
-
-          {/* Card 3: Prescription & Pharmacy */}
-          <div className="flex flex-col">
-            <div className="bg-white rounded-sm mb-4 h-[420px] overflow-hidden shadow-sm">
-              <FeatureImage images={features[2].images} alt={features[2].title} />
-            </div>
-            <h3 className="text-lg font-bold text-[#1b3a4b] mb-1">{features[2].title}</h3>
-            <p className="text-[13px] text-gray-500">{features[2].description}</p>
-          </div>
-
-          {/* Card 4: In-App Messaging */}
-          <div className="flex flex-col">
-            <div className="bg-white rounded-sm mb-4 h-[420px] relative overflow-hidden shadow-sm">
-              <FeatureImage
-                images={[
-                  "/assets/InAppMessagingComp1.png",
-                  "/assets/InAppMessagingComp2.png",
-
-                ]}
-                alt="In-App Messaging"
+          {/* Stage */}
+          <div id="feature-panel" role="tabpanel" className="order-1 lg:order-2">
+            <motion.div
+              animate={{ backgroundColor: feature.tint }}
+              transition={{ duration: 0.6 }}
+              className="relative mx-auto flex aspect-[1/1.02] w-full max-w-[560px] items-center justify-center overflow-hidden rounded-[2.5rem] border border-slate-100"
+            >
+              <div className="bg-dot-grid absolute inset-0 opacity-70" />
+              <motion.div
+                animate={{ backgroundColor: feature.accent }}
+                transition={{ duration: 0.6 }}
+                className="absolute h-[60%] w-[60%] rounded-full opacity-25 blur-[80px]"
               />
-              <div className="absolute inset-0 bg-black/10 pointer-events-none"></div>
 
-              <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg pointer-events-none">
-                <div className="flex justify-between items-start mb-2">
-                  <h5 className="text-[12px] font-bold text-[#1b3a4b]">Live consultation in progress</h5>
-                  <X size={14} className="text-red-500 border border-red-500 rounded-full p-0.5" />
-                </div>
-                <p className="text-[10px] text-gray-500 leading-relaxed mb-4">
-                  You can view the patient's history, note symptoms, give a diagnosis, plan treatment, prescribe medicine, order tests, and make referrals.
-                </p>
-                <div className="flex justify-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center">
-                    <Mic size={14} className="text-white" />
+              <AnimatePresence mode="popLayout" initial={false}>
+                <motion.div
+                  key={feature.key}
+                  initial={{ opacity: 0, y: 40, rotate: -3, scale: 0.94 }}
+                  animate={{ opacity: 1, y: 0, rotate: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -30, rotate: 3, scale: 0.94 }}
+                  transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                  className="relative z-10 w-[58%] max-w-[300px]"
+                >
+                  <div className="overflow-hidden rounded-[1.75rem] border-[6px] border-white bg-white shadow-[0_40px_80px_-24px_rgba(15,23,42,0.35)]">
+                    <img src={feature.img} alt={feature.imgAlt} className="block aspect-[1412/1836] w-full object-cover" />
                   </div>
-                  <div className="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center">
-                    <MessageSquare size={14} className="text-white" />
-                  </div>
-                  <div className="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center">
-                    <Phone size={14} className="text-white fill-white transform rotate-135" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <h3 className="text-lg font-bold text-[#1b3a4b] mb-1">In-App Messaging</h3>
-            <p className="text-[13px] text-gray-500">Chit chat with your doctor about anything</p>
-          </div>
 
-          {/* Card 5: Insurance & Claims */}
-          <div className="flex flex-col">
-            <div className="bg-white rounded-sm mb-4 h-[420px] overflow-hidden shadow-sm">
-              <FeatureImage images={features[3].images} alt={features[3].title} />
-            </div>
-            <h3 className="text-lg font-bold text-[#1b3a4b] mb-1">{features[3].title}</h3>
-            <p className="text-[13px] text-gray-500">{features[3].description}</p>
-          </div>
+                  <motion.div
+                    initial={{ opacity: 0, x: 20, y: -6 }}
+                    animate={{ opacity: 1, x: 0, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                    className="font-manrope absolute -right-10 top-8 inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-2 text-[12.5px] font-bold text-slate-800 shadow-[0_12px_30px_-10px_rgba(15,23,42,0.3)] sm:-right-16"
+                  >
+                    <feature.chip.icon size={15} style={{ color: feature.accent }} />
+                    {feature.chip.text}
+                  </motion.div>
 
-          {/* Card 6: Digcare Health Card */}
-          <div className="flex flex-col">
-            <div className="bg-white rounded-sm mb-4 h-[420px] overflow-hidden shadow-sm">
-              <FeatureImage images={features[4].images} alt={features[4].title} />
-            </div>
-            <h3 className="text-lg font-bold text-[#1b3a4b] mb-1">{features[4].title}</h3>
-            <p className="text-[13px] text-gray-500">{features[4].description}</p>
+                  <motion.div
+                    initial={{ opacity: 0, x: -20, y: 6 }}
+                    animate={{ opacity: 1, x: 0, y: 0 }}
+                    transition={{ delay: 0.45, duration: 0.5 }}
+                    className="font-manrope absolute -left-10 bottom-10 rounded-2xl bg-[#0B1120] px-4 py-3 text-white shadow-[0_16px_36px_-12px_rgba(11,17,32,0.5)] sm:-left-16"
+                  >
+                    <span className="flex items-center gap-1.5 text-[10.5px] font-semibold uppercase tracking-wide text-slate-400">
+                      <Clock size={11} /> {feature.stat.label}
+                    </span>
+                    <span className="font-display mt-0.5 block text-[16px] font-bold">{feature.stat.value}</span>
+                  </motion.div>
+                </motion.div>
+              </AnimatePresence>
+            </motion.div>
           </div>
-
         </div>
       </div>
     </section>
   );
-};
-
-export default FeaturesSection;
+}

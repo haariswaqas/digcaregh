@@ -1,6 +1,6 @@
 // BlogService.tsx
 
-const API_BASE = process.env.API;
+const API_BASE = process.env.API ?? process.env.NEXT_PUBLIC_API;
 
 /* -------------------------------------------------------------------------- */
 /*                                    Types                                   */
