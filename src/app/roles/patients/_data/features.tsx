@@ -70,6 +70,24 @@ export interface FeatureFaq {
   a: string;
 }
 
+export interface FeatureScreen {
+  src: string;
+  alt: string;
+}
+
+export interface WalkthroughStep {
+  label: string;
+  title: string;
+  description: string;
+  screen: FeatureScreen;
+}
+
+export interface FeatureWalkthrough {
+  title: string;
+  subtitle: string;
+  steps: WalkthroughStep[];
+}
+
 export interface PatientFeature {
   slug: string;
   title: string;
@@ -78,9 +96,13 @@ export interface PatientFeature {
   accent: string;
   heroHeadline: string;
   heroSubhead: string;
+  /** App screenshot for the hero; falls back to the feature icon when absent. */
+  heroScreen?: FeatureScreen;
   stats: FeatureStat[];
   capabilities: FeatureCapability[];
-  steps: FeatureStep[];
+  /** Real app screens shown in "How it works"; takes the place of `steps`. */
+  walkthrough?: FeatureWalkthrough;
+  steps?: FeatureStep[];
   goodToKnow: FeatureNote[];
   faqs: FeatureFaq[];
   related: string[];
@@ -95,7 +117,8 @@ export const patientFeatures: PatientFeature[] = [
     accent: "#10B981",
     heroHeadline: "Book care in seconds, not phone calls.",
     heroSubhead:
-      "Find a facility, pick a doctor, choose in-person or video, and confirm — your whole booking flow lives in one screen, with reminders that keep you from missing it.",
+      "Find a facility, pick a doctor, choose in-person or video, and confirm — six quick steps in one app, with reminders that keep you from missing it.",
+    heroScreen: { src: "/assets/booking/step-5-schedule.png", alt: "DigCare booking screen showing available dates and time slots" },
     stats: [
       { label: "Avg. time to book", value: "< 60 sec" },
       { label: "Appointment types", value: "In-person & Teleconsult" },
@@ -139,32 +162,55 @@ export const patientFeatures: PatientFeature[] = [
           "Every past appointment — attended, missed, or cancelled — stays on your timeline for future reference.",
       },
     ],
-    steps: [
-      {
-        number: 1,
-        title: "Choose a facility or doctor",
-        description:
-          "Search DigCare's network by location, specialty, or a doctor you've seen before.",
-      },
-      {
-        number: 2,
-        title: "Pick a slot",
-        description:
-          "Select an open date and time, and whether you want an in-person visit or a teleconsult.",
-      },
-      {
-        number: 3,
-        title: "Confirm your details",
-        description:
-          "Add a short reason for the visit so your doctor arrives prepared, then confirm the booking.",
-      },
-      {
-        number: 4,
-        title: "Get reminded & show up",
-        description:
-          "Receive confirmation instantly, then reminders as the appointment approaches. Join by video or walk in.",
-      },
-    ],
+    walkthrough: {
+      title: "Book an appointment in six simple steps.",
+      subtitle:
+        "This is the real booking flow in the DigCare app — from choosing how you want to be seen to confirming your visit.",
+      steps: [
+        {
+          label: "Care type",
+          title: "Choose how you want to be seen.",
+          description:
+            "Pick an in-person visit at a clinic, or a telehealth video consultation from wherever you are.",
+          screen: { src: "/assets/booking/step-1-care-type.png", alt: "Select appointment type: in-person visit or telehealth" },
+        },
+        {
+          label: "Preference",
+          title: "Start with a doctor or a clinic.",
+          description:
+            "Already have a doctor you trust? Start with them. Prefer a clinic close to home? Start there instead.",
+          screen: { src: "/assets/booking/step-2-preference.png", alt: "Choose to pick a doctor first or select a clinic first" },
+        },
+        {
+          label: "Provider",
+          title: "Find the right provider.",
+          description:
+            "Search by name or specialty. Fees, consultation types and clinic locations are shown up front — no surprises.",
+          screen: { src: "/assets/booking/step-3-provider.png", alt: "List of doctors with specialty, fee, video and clinic options" },
+        },
+        {
+          label: "Clinic",
+          title: "See where your insurance is accepted.",
+          description:
+            "Each clinic shows which insurers it accepts, including NHIS, so you know what's covered before you go.",
+          screen: { src: "/assets/booking/step-4-clinic.png", alt: "Clinics for the chosen doctor, marked with accepted insurance" },
+        },
+        {
+          label: "Schedule",
+          title: "Pick a real open slot.",
+          description:
+            "Only the days your doctor is actually at the clinic can be booked, with live time slots to choose from.",
+          screen: { src: "/assets/booking/step-5-schedule.png", alt: "Available dates and time slots for the appointment" },
+        },
+        {
+          label: "Details",
+          title: "Tell your doctor why you're coming.",
+          description:
+            "Add a short reason so your doctor arrives prepared, check the summary, then confirm in one tap.",
+          screen: { src: "/assets/booking/step-6-details.png", alt: "Booking summary with consultation reason and confirm button" },
+        },
+      ],
+    },
     goodToKnow: [
       {
         icon: AlertTriangle,

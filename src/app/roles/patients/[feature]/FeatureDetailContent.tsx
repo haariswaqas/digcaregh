@@ -2,9 +2,11 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, Sparkles } from "lucide-react";
+import { ArrowLeft, BellRing, Check, Sparkles } from "lucide-react";
 import FeatureCard from "@/components/roles/FeatureCard";
 import StepFlow from "@/components/roles/StepFlow";
+import FeatureWalkthrough from "@/components/roles/FeatureWalkthrough";
+import AppScreen, { SCREEN_BACKDROP } from "@/components/roles/AppScreen";
 import FaqAccordion from "@/components/roles/FaqAccordion";
 import RelatedFeatureLinks from "@/components/roles/RelatedFeatureLinks";
 import RoleCtaBanner from "@/components/roles/RoleCtaBanner";
@@ -100,13 +102,59 @@ export default function FeatureDetailContent({ slug }: FeatureDetailContentProps
               </div>
             </motion.div>
 
-            {/* Decorative icon panel */}
             <motion.div
               initial={{ opacity: 0, x: 24 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.15 }}
               className="lg:w-1/2 flex justify-center"
             >
+              {feature.heroScreen ? (
+                <div className="relative w-[270px] md:w-[320px]">
+                  <div
+                    className="absolute -top-10 -right-12 h-48 w-48 rounded-full opacity-30 blur-3xl"
+                    style={{ background: accent }}
+                  />
+                  <div className="absolute -bottom-12 -left-12 h-56 w-56 rounded-full bg-sky-300 opacity-20 blur-3xl" />
+                  <div
+                    className="relative overflow-hidden rounded-[2.25rem] border border-slate-200/70 px-5 pt-5"
+                    style={{ background: SCREEN_BACKDROP, boxShadow: `0 40px 80px -30px ${accent}55` }}
+                  >
+                    <AppScreen
+                      src={feature.heroScreen.src}
+                      alt={feature.heroScreen.alt}
+                      sizes="(min-width: 768px) 280px, 230px"
+                      priority
+                    />
+                  </div>
+                  <motion.div
+                    initial={{ opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.6, duration: 0.5 }}
+                    className="absolute -left-6 bottom-[11%] md:-left-16"
+                  >
+                    <div className="animate-float font-manrope flex items-center gap-2.5 rounded-2xl bg-white px-3.5 py-2.5 shadow-[0_18px_40px_-14px_rgba(15,23,42,0.35)]" style={{ animationDuration: "7s" }}>
+                      <span className="flex h-8 w-8 items-center justify-center rounded-full text-white" style={{ background: accent }}>
+                        <Check size={16} strokeWidth={3} />
+                      </span>
+                      <span className="leading-tight">
+                        <span className="block text-[12.5px] font-bold text-[#0B1120]">Booking confirmed</span>
+                        <span className="block text-[11px] text-slate-500">Fri 16 Oct · 10:30 AM</span>
+                      </span>
+                    </div>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, x: 16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.85, duration: 0.5 }}
+                    className="absolute -right-4 -top-5 md:-right-12"
+                  >
+                    <div className="animate-float font-manrope flex items-center gap-2 rounded-2xl bg-[#0B1120] px-3.5 py-2.5 text-white shadow-[0_18px_40px_-14px_rgba(11,17,32,0.55)]" style={{ animationDuration: "8s", animationDelay: "1.4s" }}>
+                      <BellRing size={15} style={{ color: accent }} />
+                      <span className="text-[12px] font-bold">Reminder 24h before</span>
+                    </div>
+                  </motion.div>
+                </div>
+              ) : (
               <div className="relative w-[280px] md:w-[320px] aspect-square">
                 {/* Blurred accent orbs */}
                 <div
@@ -137,6 +185,7 @@ export default function FeatureDetailContent({ slug }: FeatureDetailContentProps
                   </div>
                 </div>
               </div>
+              )}
             </motion.div>
           </div>
         </div>
@@ -205,8 +254,16 @@ export default function FeatureDetailContent({ slug }: FeatureDetailContentProps
               className="text-3xl md:text-[36px] font-bold text-[#1a2b3c] leading-tight"
               style={{ fontFamily: "'Space Grotesk', sans-serif", letterSpacing: "-0.5px" }}
             >
-              From start to finish.
+              {feature.walkthrough?.title ?? "From start to finish."}
             </h2>
+            {feature.walkthrough && (
+              <p
+                className="mt-4 text-[16px] leading-[1.7] text-gray-500"
+                style={{ fontFamily: "Manrope, sans-serif" }}
+              >
+                {feature.walkthrough.subtitle}
+              </p>
+            )}
           </motion.div>
 
           <motion.div
@@ -214,7 +271,11 @@ export default function FeatureDetailContent({ slug }: FeatureDetailContentProps
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <StepFlow steps={feature.steps} accentColor={accent} />
+            {feature.walkthrough ? (
+              <FeatureWalkthrough steps={feature.walkthrough.steps} accent={accent} />
+            ) : (
+              feature.steps && <StepFlow steps={feature.steps} accentColor={accent} />
+            )}
           </motion.div>
         </div>
       </section>

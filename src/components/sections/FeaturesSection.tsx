@@ -1,15 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import Link from "next/link";
-import {
-  AnimatePresence,
-  motion,
-  useInView,
-  useMotionValue,
-  useReducedMotion,
-  type MotionValue,
-} from "framer-motion";
+import { AnimatePresence, motion, useInView, type MotionValue } from "framer-motion";
 import {
   ArrowUpRight,
   CalendarCheck,
@@ -23,6 +16,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import SectionHeading from "@/components/landing/SectionHeading";
+import { useAutoAdvance } from "@/hooks/use-auto-advance";
 
 interface Feature {
   key: string;
@@ -120,48 +114,6 @@ const FEATURES: Feature[] = [
 
 const DURATION_MS = 6500;
 
-function useAutoAdvance(count: number, inView: boolean) {
-  const [active, setActive] = useState(0);
-  const progress = useMotionValue(0);
-  const pausedRef = useRef(false);
-  const reduce = useReducedMotion();
-
-  useEffect(() => {
-    if (reduce || !inView) return;
-    let raf = 0;
-    let last = performance.now();
-    const tick = (t: number) => {
-      const dt = t - last;
-      last = t;
-      if (!pausedRef.current) {
-        const next = progress.get() + dt / DURATION_MS;
-        if (next >= 1) {
-          progress.set(0);
-          setActive((a) => (a + 1) % count);
-        } else {
-          progress.set(next);
-        }
-      }
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [count, inView, progress, reduce]);
-
-  const select = (i: number) => {
-    progress.set(0);
-    setActive(i);
-  };
-  const pause = () => {
-    pausedRef.current = true;
-  };
-  const resume = () => {
-    pausedRef.current = false;
-  };
-
-  return { active, select, progress, pause, resume };
-}
-
 function TabProgress({ progress, color }: { progress: MotionValue<number>; color: string }) {
   return (
     <span className="absolute inset-x-0 bottom-0 h-[3px] overflow-hidden rounded-full bg-slate-100">
@@ -173,7 +125,7 @@ function TabProgress({ progress, color }: { progress: MotionValue<number>; color
 export default function FeaturesSection() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { margin: "-20% 0px" });
-  const { active, select, progress, pause, resume } = useAutoAdvance(FEATURES.length, inView);
+  const { index: active, select, progress, pause, resume } = useAutoAdvance(FEATURES.length, inView, DURATION_MS);
   const feature = FEATURES[active];
 
   return (
