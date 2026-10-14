@@ -40,6 +40,7 @@ import {
   UserCog,
   KeyRound,
   Camera,
+  Check,
   type LucideIcon,
 } from "lucide-react";
 
@@ -88,6 +89,12 @@ export interface FeatureWalkthrough {
   steps: WalkthroughStep[];
 }
 
+export interface HeroChip {
+  icon: LucideIcon;
+  title: string;
+  detail?: string;
+}
+
 export interface PatientFeature {
   slug: string;
   title: string;
@@ -98,6 +105,10 @@ export interface PatientFeature {
   heroSubhead: string;
   /** App screenshot for the hero; falls back to the feature icon when absent. */
   heroScreen?: FeatureScreen;
+  /** Background colour baked into this feature's screenshots, so frames blend with them. */
+  screenBackdrop?: string;
+  /** Floating callouts beside the hero screen: a light one bottom-left, a dark one top-right. */
+  heroChips?: { light: HeroChip; dark: HeroChip };
   stats: FeatureStat[];
   capabilities: FeatureCapability[];
   /** Real app screens shown in "How it works"; takes the place of `steps`. */
@@ -119,6 +130,10 @@ export const patientFeatures: PatientFeature[] = [
     heroSubhead:
       "Find a facility, pick a doctor, choose in-person or video, and confirm — six quick steps in one app, with reminders that keep you from missing it.",
     heroScreen: { src: "/assets/booking/step-5-schedule.png", alt: "DigCare booking screen showing available dates and time slots" },
+    heroChips: {
+      light: { icon: Check, title: "Booking confirmed", detail: "Fri 16 Oct · 10:30 AM" },
+      dark: { icon: BellRing, title: "Reminder 24h before" },
+    },
     stats: [
       { label: "Avg. time to book", value: "< 60 sec" },
       { label: "Appointment types", value: "In-person & Teleconsult" },
@@ -250,11 +265,20 @@ export const patientFeatures: PatientFeature[] = [
     accent: "#10B981",
     heroHeadline: "Every prescription, tracked from pen to pickup.",
     heroSubhead:
-      "See exactly what's been prescribed, which pharmacy has dispensed it, and what's still pending — so you never lose track of a medication again.",
+      "See exactly what's been prescribed, compare nearby pharmacies on stock and price, and send your prescription ahead — so you never lose track of a medication again.",
+    heroScreen: {
+      src: "/assets/prescriptions/step-2-prescription-details.png",
+      alt: "DigCare prescription details showing the prescribing doctor, clinical notes and medication dosage",
+    },
+    screenBackdrop: "#F7F8FA",
+    heroChips: {
+      light: { icon: Check, title: "Sent to pharmacy", detail: "Osu Community Pharmacy" },
+      dark: { icon: Wallet, title: "NHIS · 70% covered" },
+    },
     stats: [
-      { label: "Status tracking", value: "Issued → Dispensed" },
-      { label: "History retained", value: "Entire patient record" },
-      { label: "Refill requests", value: "In-app, to your doctor" },
+      { label: "Status tracking", value: "Issued → Completed" },
+      { label: "Before you go", value: "Stock & price shown" },
+      { label: "Insurance", value: "Applied at the pharmacy" },
     ],
     capabilities: [
       {
@@ -265,9 +289,15 @@ export const patientFeatures: PatientFeature[] = [
       },
       {
         icon: CheckCircle2,
-        title: "Dispensed vs. pending",
+        title: "Status at a glance",
         description:
-          "A clear status badge shows what's already been collected at a pharmacy and what's still outstanding.",
+          "Each prescription is marked Issued, Completed or Cancelled, so you always know what's still waiting to be collected.",
+      },
+      {
+        icon: Wallet,
+        title: "Compare pharmacies before you go",
+        description:
+          "See which nearby pharmacies have every medication in stock, the price per unit, and how much your insurance covers.",
       },
       {
         icon: History,
@@ -288,36 +318,61 @@ export const patientFeatures: PatientFeature[] = [
           "Prescriptions are checked against any allergies on your profile, and flagged for your doctor before they're issued.",
       },
     ],
-    steps: [
-      {
-        number: 1,
-        title: "Doctor issues a prescription",
-        description:
-          "After a visit, your doctor logs the prescription directly to your DigCare record.",
-      },
-      {
-        number: 2,
-        title: "You get notified instantly",
-        description:
-          "A push notification tells you a new prescription is ready, with full dosage instructions.",
-      },
-      {
-        number: 3,
-        title: "Collect at any linked pharmacy",
-        description:
-          "Show your Health Card QR at a partner pharmacy — they verify and dispense without you needing a paper copy.",
-      },
-      {
-        number: 4,
-        title: "Status updates to Dispensed",
-        description:
-          "The moment it's collected, your record updates automatically, closing the loop for you and your doctor.",
-      },
-    ],
+    walkthrough: {
+      title: "From your doctor's note to the pharmacy counter.",
+      subtitle:
+        "This is the real prescription flow in the DigCare app — from seeing what was prescribed to sending it to the pharmacy of your choice.",
+      steps: [
+        {
+          label: "My prescriptions",
+          title: "Every prescription in one place.",
+          description:
+            "See who prescribed it, what for, and where it stands — Issued, Completed or Cancelled. Filter and search when the list grows.",
+          screen: {
+            src: "/assets/prescriptions/step-1-my-prescriptions.png",
+            alt: "List of prescriptions with doctor, diagnosis, medications and status",
+          },
+        },
+        {
+          label: "Details",
+          title: "No handwriting to decode.",
+          description:
+            "Dosage, frequency, duration and how to take each medication, plus your doctor's clinical notes and general instructions.",
+          screen: {
+            src: "/assets/prescriptions/step-2-prescription-details.png",
+            alt: "Prescription details with medications, dosage, frequency and instructions",
+          },
+        },
+        {
+          label: "Pharmacies",
+          title: "Compare stock and prices before you go.",
+          description:
+            "See which nearby pharmacies have your medication, the price per unit, and what you'll pay after your insurance is applied.",
+          screen: {
+            src: "/assets/prescriptions/step-3-nearby-pharmacies.png",
+            alt: "Nearby pharmacies with stock levels, unit prices and an insurance-adjusted cost summary",
+          },
+        },
+        {
+          label: "Pickup",
+          title: "Send it to the pharmacy and you're set.",
+          description:
+            "Your prescription is sent ahead so it's ready when you arrive. Call or get directions straight from the app.",
+          screen: {
+            src: "/assets/prescriptions/step-4-selected-pharmacy.png",
+            alt: "Selected pharmacy confirmation with call and directions buttons",
+          },
+        },
+      ],
+    },
     goodToKnow: [
       {
         icon: ShieldAlert,
         text: "Controlled medications may require an additional PIN or OTP confirmation at the pharmacy for your protection.",
+      },
+      {
+        icon: Wallet,
+        text: "The cost shown in the app is an estimate based on current stock and your insurance cover — the pharmacy confirms the final amount when you collect.",
       },
       {
         icon: CheckCircle2,
@@ -327,11 +382,11 @@ export const patientFeatures: PatientFeature[] = [
     faqs: [
       {
         q: "Can I pick up a prescription at any pharmacy?",
-        a: "Only at pharmacies that are part of the DigCare network. Your app shows nearby linked pharmacies so you can check before you go.",
+        a: "Only at pharmacies that are part of the DigCare network. The app shows nearby partner pharmacies that have your medication in stock, so you can choose before you go.",
       },
       {
-        q: "What if I lose access to my phone?",
-        a: "A pharmacist can also verify your identity manually with ID, but the QR flow is the fastest and most secure option.",
+        q: "Do I need to send the prescription to a pharmacy before collecting?",
+        a: "It's the fastest option — the pharmacy prepares it ahead of time. If you'd rather walk in, a pharmacist can still look up your prescription with your Health Card.",
       },
       {
         q: "Will my doctor see if I never collected a medication?",

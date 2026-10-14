@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, BellRing, Check, Sparkles } from "lucide-react";
+import { ArrowLeft, Sparkles } from "lucide-react";
 import FeatureCard from "@/components/roles/FeatureCard";
 import StepFlow from "@/components/roles/StepFlow";
 import FeatureWalkthrough from "@/components/roles/FeatureWalkthrough";
@@ -117,7 +117,7 @@ export default function FeatureDetailContent({ slug }: FeatureDetailContentProps
                   <div className="absolute -bottom-12 -left-12 h-56 w-56 rounded-full bg-sky-300 opacity-20 blur-3xl" />
                   <div
                     className="relative overflow-hidden rounded-[2.25rem] border border-slate-200/70 px-5 pt-5"
-                    style={{ background: SCREEN_BACKDROP, boxShadow: `0 40px 80px -30px ${accent}55` }}
+                    style={{ background: feature.screenBackdrop ?? SCREEN_BACKDROP, boxShadow: `0 40px 80px -30px ${accent}55` }}
                   >
                     <AppScreen
                       src={feature.heroScreen.src}
@@ -126,33 +126,39 @@ export default function FeatureDetailContent({ slug }: FeatureDetailContentProps
                       priority
                     />
                   </div>
-                  <motion.div
-                    initial={{ opacity: 0, x: -16 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.6, duration: 0.5 }}
-                    className="absolute -left-6 bottom-[11%] md:-left-16"
-                  >
-                    <div className="animate-float font-manrope flex items-center gap-2.5 rounded-2xl bg-white px-3.5 py-2.5 shadow-[0_18px_40px_-14px_rgba(15,23,42,0.35)]" style={{ animationDuration: "7s" }}>
-                      <span className="flex h-8 w-8 items-center justify-center rounded-full text-white" style={{ background: accent }}>
-                        <Check size={16} strokeWidth={3} />
-                      </span>
-                      <span className="leading-tight">
-                        <span className="block text-[12.5px] font-bold text-[#0B1120]">Booking confirmed</span>
-                        <span className="block text-[11px] text-slate-500">Fri 16 Oct · 10:30 AM</span>
-                      </span>
-                    </div>
-                  </motion.div>
-                  <motion.div
-                    initial={{ opacity: 0, x: 16 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.85, duration: 0.5 }}
-                    className="absolute -right-4 -top-5 md:-right-12"
-                  >
-                    <div className="animate-float font-manrope flex items-center gap-2 rounded-2xl bg-[#0B1120] px-3.5 py-2.5 text-white shadow-[0_18px_40px_-14px_rgba(11,17,32,0.55)]" style={{ animationDuration: "8s", animationDelay: "1.4s" }}>
-                      <BellRing size={15} style={{ color: accent }} />
-                      <span className="text-[12px] font-bold">Reminder 24h before</span>
-                    </div>
-                  </motion.div>
+                  {feature.heroChips && (
+                    <>
+                      <motion.div
+                        initial={{ opacity: 0, x: -16 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.6, duration: 0.5 }}
+                        className="absolute -left-6 bottom-[11%] md:-left-16"
+                      >
+                        <div className="animate-float font-manrope flex items-center gap-2.5 rounded-2xl bg-white px-3.5 py-2.5 shadow-[0_18px_40px_-14px_rgba(15,23,42,0.35)]" style={{ animationDuration: "7s" }}>
+                          <span className="flex h-8 w-8 items-center justify-center rounded-full text-white" style={{ background: accent }}>
+                            <feature.heroChips.light.icon size={16} strokeWidth={3} />
+                          </span>
+                          <span className="leading-tight">
+                            <span className="block text-[12.5px] font-bold text-[#0B1120]">{feature.heroChips.light.title}</span>
+                            {feature.heroChips.light.detail && (
+                              <span className="block text-[11px] text-slate-500">{feature.heroChips.light.detail}</span>
+                            )}
+                          </span>
+                        </div>
+                      </motion.div>
+                      <motion.div
+                        initial={{ opacity: 0, x: 16 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.85, duration: 0.5 }}
+                        className="absolute -right-4 -top-5 md:-right-12"
+                      >
+                        <div className="animate-float font-manrope flex items-center gap-2 rounded-2xl bg-[#0B1120] px-3.5 py-2.5 text-white shadow-[0_18px_40px_-14px_rgba(11,17,32,0.55)]" style={{ animationDuration: "8s", animationDelay: "1.4s" }}>
+                          <feature.heroChips.dark.icon size={15} style={{ color: accent }} />
+                          <span className="text-[12px] font-bold">{feature.heroChips.dark.title}</span>
+                        </div>
+                      </motion.div>
+                    </>
+                  )}
                 </div>
               ) : (
               <div className="relative w-[280px] md:w-[320px] aspect-square">
@@ -272,7 +278,7 @@ export default function FeatureDetailContent({ slug }: FeatureDetailContentProps
             viewport={{ once: true }}
           >
             {feature.walkthrough ? (
-              <FeatureWalkthrough steps={feature.walkthrough.steps} accent={accent} />
+              <FeatureWalkthrough steps={feature.walkthrough.steps} accent={accent} backdrop={feature.screenBackdrop} />
             ) : (
               feature.steps && <StepFlow steps={feature.steps} accentColor={accent} />
             )}

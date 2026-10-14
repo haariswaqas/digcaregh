@@ -12,6 +12,7 @@ const STEP_MS = 5000;
 interface FeatureWalkthroughProps {
   steps: WalkthroughStep[];
   accent: string;
+  backdrop?: string;
 }
 
 function StepProgress({ progress, accent }: { progress: MotionValue<number>; accent: string }) {
@@ -22,7 +23,7 @@ function StepProgress({ progress, accent }: { progress: MotionValue<number>; acc
   );
 }
 
-export default function FeatureWalkthrough({ steps, accent }: FeatureWalkthroughProps) {
+export default function FeatureWalkthrough({ steps, accent, backdrop = SCREEN_BACKDROP }: FeatureWalkthroughProps) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { margin: "-20% 0px" });
   const { index, select, progress, pause, resume } = useAutoAdvance(steps.length, inView, STEP_MS);
@@ -114,7 +115,7 @@ export default function FeatureWalkthrough({ steps, accent }: FeatureWalkthrough
       <div className="mx-auto w-full max-w-[420px]">
         <div
           className="relative overflow-hidden rounded-[2.5rem] border border-slate-200/70 px-6 pt-6 sm:px-8 sm:pt-8"
-          style={{ background: SCREEN_BACKDROP }}
+          style={{ background: backdrop }}
         >
           <div
             className="pointer-events-none absolute left-1/2 top-1/3 h-[70%] w-[90%] -translate-x-1/2 rounded-full opacity-25 blur-[70px]"
