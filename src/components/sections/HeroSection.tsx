@@ -183,8 +183,8 @@ function HeroVisual() {
       >
         <div className="overflow-hidden rounded-t-[40px] [mask-image:linear-gradient(to_bottom,#000_62%,transparent_92%)] sm:rounded-t-[50px]">
           <img
-            src="/assets/HeroImage.png"
-            alt="DigCare patient app showing the digital Health Card and quick actions"
+            src="/assets/HeroPatientHome.png"
+            alt="DigCare patient home screen with a Smart Health Card, health summary of appointments, prescriptions and lab orders, and an upcoming teleconsult"
             className="block h-auto w-[270px] sm:w-[330px]"
           />
         </div>
