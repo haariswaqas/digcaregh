@@ -27,6 +27,7 @@ import {
   ArrowUpRight,
   Sparkles,
   Server,
+  Video,
 } from "lucide-react";
 
 const sections = [
@@ -325,6 +326,7 @@ export default function PrivacyContent() {
                     <li>Role (Student, Adult, Visitor, Doctor, Pharmacist, Lab Technician)</li>
                     <li>Profile photo (optional)</li>
                     <li>Location data (latitude/longitude — provided at registration, optional)</li>
+                    <li>Device location, only with your permission and while you use the app, to show healthcare facilities near you</li>
                   </ul>
                 </div>
 
@@ -394,6 +396,16 @@ export default function PrivacyContent() {
                     </h3>
                     <p className="text-xs text-gray-600 leading-relaxed">
                       IP addresses (logged for security and consent audit trails) and User-Agent strings (device/browser information).
+                    </p>
+                  </div>
+
+                  <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 sm:col-span-2">
+                    <h3 className="font-bold text-gray-900 text-sm mb-1.5 flex items-center gap-2">
+                      <Video size={16} className="text-[#0a9c5a]" />
+                      1.8 Camera, Microphone &amp; Photos
+                    </h3>
+                    <p className="text-xs text-gray-600 leading-relaxed">
+                      With your permission, the app uses your camera and microphone for video consultations. Audio and video are streamed live between you and your provider and are <strong>not recorded</strong> by DigCare. Photos and files you choose (a profile photo, chat attachments, verification documents) are uploaded only when you select them.
                     </p>
                   </div>
                 </div>
@@ -651,6 +663,15 @@ export default function PrivacyContent() {
                     </tr>
                   </tbody>
                 </table>
+              </div>
+
+              <div className="p-4 bg-rose-50/50 border border-rose-100 rounded-xl text-sm text-gray-700 mb-4">
+                <h3 className="font-bold text-gray-900 text-base mb-2">How to delete your account</h3>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>In the DigCare app, go to <strong>Profile → Account Settings → Delete Account</strong> and confirm with your password. Your account closes immediately and is permanently deleted after 30 days; signing in before then cancels the deletion.</li>
+                  <li>Facility administrator accounts are closed by our support team so a facility is never left without an administrator: tap <strong>Delete Account</strong> in the app to email us, or write to <a href="mailto:support@digcaregh.com" className="text-[#0a9c5a] font-bold hover:underline">support@digcaregh.com</a>.</li>
+                  <li>Without the app, email <a href="mailto:support@digcaregh.com" className="text-[#0a9c5a] font-bold hover:underline">support@digcaregh.com</a> from your account&apos;s email address.</li>
+                </ul>
               </div>
 
               <div className="p-4 bg-gray-50 border border-gray-200 rounded-xl text-xs text-gray-600 flex items-center justify-between gap-4">
